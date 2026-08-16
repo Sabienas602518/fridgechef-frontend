@@ -8,20 +8,46 @@ export class BackendService {
 
   apiURL = 'http://localhost:3000/api';
 
-  constructor() { }
 
   async getAllIngredients(): Promise<Ingredient[]> {
 
-    let response =
-      await fetch(this.apiURL + '/ingredients');
-
-    let ingredients = await response.json();
-
-    console.log(
-      'ingredients in service (getAllIngredients): ',
-      ingredients
+    const response = await fetch(
+      this.apiURL + '/ingredients'
     );
 
-    return ingredients;
+    if (!response.ok) {
+      throw new Error(
+        'Zutaten konnten nicht geladen werden'
+      );
+    }
+
+    return await response.json();
+  }
+
+
+  async createIngredient(
+    ingredient: Ingredient
+  ): Promise<Ingredient> {
+
+    const response = await fetch(
+      this.apiURL + '/ingredients',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(ingredient)
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        'Zutat konnte nicht gespeichert werden'
+      );
+    }
+
+    return await response.json();
   }
 }

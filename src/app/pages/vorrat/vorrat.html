@@ -1,3 +1,95 @@
 <h1>Mein Vorrat</h1>
 
-<p>{{ ingredients.length }} Zutaten vorhanden</p>
+<h2>Zutat hinzufügen</h2>
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="addIngredient()"
+>
+
+  <div>
+    <label for="name">Name</label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+    >
+  </div>
+
+  <div>
+    <label for="quantity">Menge</label>
+    <input
+      id="quantity"
+      type="number"
+      formControlName="quantity"
+    >
+  </div>
+
+  <div>
+    <label for="unit">Einheit</label>
+    <input
+      id="unit"
+      type="text"
+      formControlName="unit"
+    >
+  </div>
+
+  <div>
+    <label for="category">Kategorie</label>
+    <input
+      id="category"
+      type="text"
+      formControlName="category"
+    >
+  </div>
+
+  <div>
+    <label for="expiryDate">Ablaufdatum</label>
+    <input
+      id="expiryDate"
+      type="date"
+      formControlName="expiryDate"
+    >
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="form.invalid"
+  >
+    Zutat hinzufügen
+  </button>
+
+</form>
+
+
+@if (loading) {
+  <p>Vorrat wird geladen...</p>
+}
+
+@if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+}
+
+@if (!loading && !errorMessage && ingredients.length === 0) {
+  <p>Noch keine Zutaten im Vorrat.</p>
+}
+
+@if (!loading && ingredients.length > 0) {
+
+  <ul>
+
+    @for (ingredient of ingredients; track ingredient._id) {
+
+      <li>
+        <strong>{{ ingredient.name }}</strong>
+        -
+        {{ ingredient.quantity }}
+        {{ ingredient.unit }}
+        -
+        {{ ingredient.category }}
+      </li>
+
+    }
+
+  </ul>
+}
