@@ -1,0 +1,71 @@
+:host {
+  display: block;
+
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding: 24px;
+}
+
+
+form {
+  display: grid;
+
+  gap: 16px;
+}
+
+
+form div {
+  display: grid;
+
+  gap: 6px;
+}
+
+
+label {
+  font-weight: 600;
+}
+
+
+input,
+select {
+  width: 100%;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #cccccc;
+
+  border-radius: 6px;
+
+  font: inherit;
+}
+
+
+button {
+  padding: 9px 14px;
+
+  margin-right: 8px;
+
+  border:
+    1px solid #999999;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+
+button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+.error {
+  font-size: 0.9rem;
+}

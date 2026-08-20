@@ -1,0 +1,112 @@
+:host {
+  display: block;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin-bottom: 24px;
+}
+
+h2 {
+  margin-top: 28px;
+  margin-bottom: 16px;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+  max-width: 600px;
+  margin-bottom: 32px;
+}
+
+form div {
+  display: grid;
+  gap: 6px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+
+  font: inherit;
+}
+
+button {
+  padding: 9px 14px;
+
+  border: 1px solid #999999;
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #dddddd;
+  text-align: left;
+}
+
+th {
+  white-space: nowrap;
+}
+
+.delete-confirmation {
+  max-width: 500px;
+  margin-top: 24px;
+  padding: 20px;
+
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+}
+
+.delete-confirmation button {
+  margin-right: 8px;
+}
+
+@media (max-width: 700px) {
+
+  :host {
+    padding: 12px;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+
+  form {
+    width: 100%;
+  }
+}

@@ -1,0 +1,183 @@
+<h1>Zutat bearbeiten</h1>
+
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="update()"
+>
+
+  <!-- Name -->
+  <div>
+
+    <label for="name">
+      Name
+    </label>
+
+    <input
+      id="name"
+      type="text"
+      formControlName="nameControl"
+    >
+
+    @if (
+      form.controls.nameControl.invalid &&
+      form.controls.nameControl.touched
+    ) {
+
+      <p class="error">
+        Der Name muss mindestens
+        2 Zeichen haben.
+      </p>
+
+    }
+
+  </div>
+
+
+  <!-- Menge -->
+  <div>
+
+    <label for="quantity">
+      Menge
+    </label>
+
+    <input
+      id="quantity"
+      type="number"
+      formControlName="quantityControl"
+    >
+
+    @if (
+      form.controls.quantityControl.invalid &&
+      form.controls.quantityControl.touched
+    ) {
+
+      <p class="error">
+        Die Menge muss größer als 0 sein.
+      </p>
+
+    }
+
+  </div>
+
+
+  <!-- Einheit -->
+  <div>
+
+    <label for="unit">
+      Einheit
+    </label>
+
+    <select
+      id="unit"
+      formControlName="unitControl"
+    >
+
+      <option value="">
+        Bitte wählen
+      </option>
+
+      <option value="Stück">
+        Stück
+      </option>
+
+      <option value="g">
+        g
+      </option>
+
+      <option value="kg">
+        kg
+      </option>
+
+      <option value="ml">
+        ml
+      </option>
+
+      <option value="l">
+        l
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <!-- Kategorie -->
+  <div>
+
+    <label for="category">
+      Kategorie
+    </label>
+
+    <select
+      id="category"
+      formControlName="categoryControl"
+    >
+
+      <option value="">
+        Bitte wählen
+      </option>
+
+      <option value="Gemüse">
+        Gemüse
+      </option>
+
+      <option value="Obst">
+        Obst
+      </option>
+
+      <option value="Milchprodukte">
+        Milchprodukte
+      </option>
+
+      <option value="Fleisch">
+        Fleisch
+      </option>
+
+      <option value="Getreide">
+        Getreide
+      </option>
+
+      <option value="Sonstiges">
+        Sonstiges
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <!-- Ablaufdatum -->
+  <div>
+
+    <label for="expiryDate">
+      Ablaufdatum
+    </label>
+
+    <input
+      id="expiryDate"
+      type="date"
+      formControlName="expiryDateControl"
+    >
+
+  </div>
+
+
+  <!-- Speichern -->
+  <button
+    type="submit"
+    [disabled]="form.invalid"
+  >
+    Änderungen speichern
+  </button>
+
+
+  <!-- Abbrechen -->
+  <button
+    type="button"
+    (click)="cancel()"
+  >
+    Abbrechen
+  </button>
+
+</form> 
