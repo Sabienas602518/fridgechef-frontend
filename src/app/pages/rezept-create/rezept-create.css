@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin-bottom: 24px;
+}
+
+h2 {
+  margin-top: 28px;
+  margin-bottom: 16px;
+}
+
+form {
+  display: grid;
+  gap: 18px;
+}
+
+form div {
+  display: grid;
+  gap: 6px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+button {
+  padding: 10px 16px;
+  margin-right: 8px;
+
+  border: 1px solid #999999;
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+button[type="submit"] 
+{
+  margin-top: 8px;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 700px) {
+
+  :host { padding: 12px; }
+
+  form {  width: 100%; }
+
+}

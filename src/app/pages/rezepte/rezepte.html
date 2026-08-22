@@ -1,1 +1,164 @@
-<p>rezepte works!</p>
+<h1>Rezepte</h1>
+
+
+<a
+  class="create-link"
+  routerLink="/rezepte/neu"
+>
+  Neues Rezept anlegen
+</a>
+
+
+@if (loading) {
+
+  <p>
+    Rezepte werden geladen...
+  </p>
+
+}
+
+
+@if (errorMessage) {
+
+  <p class="error">
+    {{ errorMessage }}
+  </p>
+
+}
+
+
+@if (
+  !loading &&
+  !errorMessage &&
+  recipes.length === 0
+) {
+
+  <p>
+    Noch keine Rezepte vorhanden.
+  </p>
+
+}
+
+
+@if (
+  !loading &&
+  recipes.length > 0
+) {
+
+  <div class="recipe-grid">
+
+
+    @for (
+      recipe of recipes;
+      track recipe._id
+    ) {
+
+      <article class="recipe-card">
+
+
+        <h2>
+          {{ recipe.name }}
+        </h2>
+
+
+        <p>
+          {{ recipe.description }}
+        </p>
+
+
+        <p>
+          <strong>Dauer:</strong>
+
+          {{ recipe.duration }}
+          Minuten
+        </p>
+
+
+        <p>
+          <strong>Portionen:</strong>
+
+          {{ recipe.servings }}
+        </p>
+
+
+        <p>
+          <strong>Schwierigkeit:</strong>
+
+          {{ recipe.difficulty }}
+        </p>
+
+
+        <div class="actions">
+
+          <a
+            [routerLink]="[
+              '/rezepte',
+              recipe._id
+            ]"
+          >
+            Details / Bearbeiten
+          </a>
+
+
+          <button
+            type="button"
+            (click)="delete(recipe)"
+          >
+            Löschen
+          </button>
+
+        </div>
+
+
+      </article>
+
+    }
+
+  </div>
+
+}
+
+
+@if (
+  deleteStatus &&
+  recipeToDelete
+) {
+
+  <div class="delete-confirmation">
+
+    <h2>
+      Rezept löschen
+    </h2>
+
+
+    <p>
+
+      Möchtest du
+
+      <strong>
+        {{ recipeToDelete.name }}
+      </strong>
+
+      wirklich löschen?
+
+    </p>
+
+
+    <button
+      type="button"
+      (click)="confirmDelete()"
+    >
+      Ja, löschen
+    </button>
+
+
+    <button
+      type="button"
+      (click)="cancelDelete()"
+    >
+      Abbrechen
+    </button>
+
+  </div>
+
+}

@@ -1,0 +1,224 @@
+<h1>
+  Rezept anlegen
+</h1>
+
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="create()"
+>
+
+
+  <div>
+
+    <label for="name">
+      Name
+    </label>
+
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+    >
+
+  </div>
+
+
+  <div>
+
+    <label for="description">
+      Beschreibung
+    </label>
+
+    <textarea
+      id="description"
+      formControlName="description"
+    ></textarea>
+
+  </div>
+
+
+  <div>
+
+    <label for="duration">
+      Dauer in Minuten
+    </label>
+
+    <input
+      id="duration"
+      type="number"
+      formControlName="duration"
+    >
+
+  </div>
+
+
+  <div>
+
+    <label for="servings">
+      Portionen
+    </label>
+
+    <input
+      id="servings"
+      type="number"
+      formControlName="servings"
+    >
+
+  </div>
+
+
+  <div>
+
+    <label for="difficulty">
+      Schwierigkeit
+    </label>
+
+    <select
+      id="difficulty"
+      formControlName="difficulty"
+    >
+
+      <option value="">
+        Bitte wählen
+      </option>
+
+      <option value="einfach">
+        einfach
+      </option>
+
+      <option value="mittel">
+        mittel
+      </option>
+
+      <option value="schwer">
+        schwer
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <h2>
+    Zutat
+  </h2>
+
+
+  <div>
+
+    <label for="ingredientName">
+      Zutat
+    </label>
+
+    <input
+      id="ingredientName"
+      type="text"
+      formControlName="ingredientName"
+    >
+
+  </div>
+
+
+  <div>
+
+    <label for="ingredientQuantity">
+      Menge
+    </label>
+
+    <input
+      id="ingredientQuantity"
+      type="number"
+      formControlName="ingredientQuantity"
+    >
+
+  </div>
+
+
+  <div>
+
+    <label for="ingredientUnit">
+      Einheit
+    </label>
+
+    <select
+      id="ingredientUnit"
+      formControlName="ingredientUnit"
+    >
+
+      <option value="">
+        Bitte wählen
+      </option>
+
+      <option value="Stück">
+        Stück
+      </option>
+
+      <option value="g">
+        g
+      </option>
+
+      <option value="kg">
+        kg
+      </option>
+
+      <option value="ml">
+        ml
+      </option>
+
+      <option value="l">
+        l
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <h2>
+    Zubereitung
+  </h2>
+
+
+  <div>
+
+    <label for="instructions">
+      Zubereitungsschritte
+    </label>
+
+    <textarea
+      id="instructions"
+      formControlName="instructions"
+      rows="6"
+    ></textarea>
+
+    <p>
+      Einen Schritt pro Zeile eingeben.
+    </p>
+
+  </div>
+
+
+  @if (errorMessage) {
+
+    <p class="error">
+      {{ errorMessage }}
+    </p>
+
+  }
+
+
+  <button type="submit">
+    Rezept speichern
+  </button>
+
+
+  <button
+    type="button"
+    (click)="cancel()"
+  >
+    Abbrechen
+  </button>
+
+
+</form>

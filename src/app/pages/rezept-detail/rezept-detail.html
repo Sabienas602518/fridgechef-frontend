@@ -1,0 +1,97 @@
+@if (loading) {
+  <p>Rezept wird geladen...</p>
+}
+
+@if (errorMessage) {
+  <p class="error">{{ errorMessage }}</p>
+}
+
+@if (!loading && recipe) {
+
+  <h1>{{ recipe.name }}</h1>
+
+  <h2>Zutaten</h2>
+
+  <ul>
+    @for (ingredient of recipe.ingredients; track $index) {
+      <li>
+        {{ ingredient.quantity }}
+        {{ ingredient.unit }}
+        {{ ingredient.name }}
+      </li>
+    }
+  </ul>
+
+  <h2>Zubereitung</h2>
+
+  <ol>
+    @for (instruction of recipe.instructions; track $index) {
+      <li>{{ instruction }}</li>
+    }
+  </ol>
+
+  <h2>Rezept bearbeiten</h2>
+
+  <form [formGroup]="form" (ngSubmit)="update()">
+
+    <div>
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+      >
+    </div>
+
+    <div>
+      <label for="description">Beschreibung</label>
+      <textarea
+        id="description"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="duration">Dauer</label>
+      <input
+        id="duration"
+        type="number"
+        formControlName="duration"
+      >
+    </div>
+
+    <div>
+      <label for="servings">Portionen</label>
+      <input
+        id="servings"
+        type="number"
+        formControlName="servings"
+      >
+    </div>
+
+    <div>
+      <label for="difficulty">Schwierigkeit</label>
+
+      <select
+        id="difficulty"
+        formControlName="difficulty"
+      >
+        <option value="einfach">einfach</option>
+        <option value="mittel">mittel</option>
+        <option value="schwer">schwer</option>
+      </select>
+    </div>
+
+    <button type="submit">
+      Änderungen speichern
+    </button>
+
+    <button
+      type="button"
+      (click)="cancel()"
+    >
+      Zurück
+    </button>
+
+  </form>
+}
