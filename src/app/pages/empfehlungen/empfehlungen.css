@@ -1,0 +1,165 @@
+:host {
+  display: block;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin-bottom: 8px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+  margin-bottom: 28px;
+}
+
+.filters button {
+  padding: 10px 14px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.filters button.active {
+  font-weight: 700;
+  border-color: #333333;
+}
+
+.recommendation-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(350px, 1fr)
+  );
+  gap: 30px;
+}
+
+.recommendation-card {
+  padding: 20px;
+  border: 1px solid #dddddd;
+  border-radius: 20px;
+  background: white;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.card-header h2 {
+  margin-top: 0;
+}
+
+.status {
+  padding: 6px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status-cookable {
+  background: #dff5e1;
+}
+
+.status-almost {
+  background: #fff2c7;
+}
+
+.status-not-cookable {
+  background: #f8dddd;
+}
+
+.match-value {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.match-value strong {
+  font-size: 1.5rem;
+}
+
+.match-bar {
+  width: 100%;
+  height: 12px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: #eeeeee;
+  overflow: hidden;
+}
+
+.match-bar-value {
+  height: 100%;
+  background: #555555;
+  border-radius: 999px;
+}
+
+.missing {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.missing h3 {
+  margin-bottom: 8px;
+}
+
+.missing ul {
+  padding-left: 22px;
+}
+
+.complete {
+  font-weight: 600;
+}
+
+.error {
+  font-weight: 600;
+}
+
+
+/* Bald ablaufende Zutaten */
+
+.expiry-warning {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  padding: 14px;
+  border: 1px solid #e2c36b;
+  border-radius: 8px;
+  background: #fff8dc;
+}
+
+.expiry-warning strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.expiry-warning ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 700px) {
+
+  :host {
+    padding: 12px;
+  }
+
+  .card-header {
+    display: block;
+  }
+
+  .status {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+}

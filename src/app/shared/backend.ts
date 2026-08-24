@@ -1,45 +1,33 @@
 import { Injectable } from '@angular/core';
-
 import { Ingredient } from './ingredient';
-
 import { Recipe } from './recipe';
-
+import { RecipeMatch } from './matching';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
 
-  apiURL =
-    'http://localhost:3000/api';
+  apiURL = 'http://localhost:3000/api';
 
 
-  
+  // INGREDIENTS
 
-  // Alle Zutaten laden
-  async getAllIngredients():
-    Promise<Ingredient[]> {
-
+  async getAllIngredients(): Promise<Ingredient[]> {
     const response = await fetch(
       this.apiURL + '/ingredients'
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Zutaten konnten nicht geladen werden'
       );
-
     }
 
-
     return await response.json();
-
   }
 
 
-  // Eine Zutat laden
   async getOneIngredient(
     id: string
   ): Promise<Ingredient> {
@@ -48,22 +36,16 @@ export class BackendService {
       this.apiURL + '/ingredients/' + id
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Zutat konnte nicht geladen werden'
       );
-
     }
 
-
     return await response.json();
-
   }
 
 
-  // Zutat erstellen
   async createIngredient(
     ingredient: Ingredient
   ): Promise<Ingredient> {
@@ -74,33 +56,23 @@ export class BackendService {
         method: 'POST',
 
         headers: {
-          'Content-Type':
-            'application/json'
+          'Content-Type': 'application/json'
         },
 
-        body:
-          JSON.stringify(
-            ingredient
-          )
+        body: JSON.stringify(ingredient)
       }
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Zutat konnte nicht gespeichert werden'
       );
-
     }
 
-
     return await response.json();
-
   }
 
 
-  // Zutat bearbeiten
   async updateIngredient(
     id: string,
     ingredient: Partial<Ingredient>
@@ -112,33 +84,23 @@ export class BackendService {
         method: 'PATCH',
 
         headers: {
-          'Content-Type':
-            'application/json'
+          'Content-Type': 'application/json'
         },
 
-        body:
-          JSON.stringify(
-            ingredient
-          )
+        body: JSON.stringify(ingredient)
       }
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Zutat konnte nicht geändert werden'
       );
-
     }
 
-
     return await response.json();
-
   }
 
 
-  // Zutat löschen
   async deleteIngredient(
     id: string
   ): Promise<void> {
@@ -150,52 +112,49 @@ export class BackendService {
       }
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Zutat konnte nicht gelöscht werden'
       );
+    }
+  }
 
+
+  // RECIPES
+
+  async getAllRecipes(): Promise<Recipe[]> {
+    const response = await fetch(
+      this.apiURL + '/recipes'
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        'Rezepte konnten nicht geladen werden'
+      );
     }
 
+    return await response.json();
   }
 
 
+  async getOneRecipe(
+    id: string
+  ): Promise<Recipe> {
 
-  // READ - alle Rezepte
- async getAllRecipes(): Promise<Recipe[]> {
-  const response = await fetch(
-    this.apiURL + '/recipes'
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      'Rezepte konnten nicht geladen werden'
+    const response = await fetch(
+      this.apiURL + '/recipes/' + id
     );
+
+    if (!response.ok) {
+      throw new Error(
+        'Rezept konnte nicht geladen werden'
+      );
+    }
+
+    return await response.json();
   }
 
-  return await response.json();
-}
 
-
-  // READ - ein Rezept
-  async getOneRecipe(id: string): Promise<Recipe> {
-  const response = await fetch(
-    this.apiURL + '/recipes/' + id
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      'Rezept konnte nicht geladen werden'
-    );
-  }
-
-  return await response.json();
-}
-
-
-  // CREATE
   async createRecipe(
     recipe: Recipe
   ): Promise<Recipe> {
@@ -206,31 +165,23 @@ export class BackendService {
         method: 'POST',
 
         headers: {
-          'Content-Type':
-            'application/json'
+          'Content-Type': 'application/json'
         },
 
-        body:
-          JSON.stringify(recipe)
+        body: JSON.stringify(recipe)
       }
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Rezept konnte nicht gespeichert werden'
       );
-
     }
 
-
     return await response.json();
-
   }
 
 
-  // UPDATE
   async updateRecipe(
     id: string,
     recipe: Partial<Recipe>
@@ -242,31 +193,23 @@ export class BackendService {
         method: 'PATCH',
 
         headers: {
-          'Content-Type':
-            'application/json'
+          'Content-Type': 'application/json'
         },
 
-        body:
-          JSON.stringify(recipe)
+        body: JSON.stringify(recipe)
       }
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Rezept konnte nicht geändert werden'
       );
-
     }
 
-
     return await response.json();
-
   }
 
 
-  // DELETE
   async deleteRecipe(
     id: string
   ): Promise<void> {
@@ -278,15 +221,27 @@ export class BackendService {
       }
     );
 
-
     if (!response.ok) {
-
       throw new Error(
         'Rezept konnte nicht gelöscht werden'
       );
-
     }
-
   }
+
+
+  // MATCHING
+async getRecipeMatch(recipeId: string): Promise<RecipeMatch> {
+  const response = await fetch(
+    this.apiURL + '/matching/' + recipeId
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      'Matching konnte nicht geladen werden'
+    );
+  }
+
+  return await response.json();
+}
 
 }

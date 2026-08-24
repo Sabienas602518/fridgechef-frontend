@@ -1,0 +1,250 @@
+<h1>Was kann ich kochen?</h1>
+
+<p>
+  Hier siehst du, welche Rezepte zu deinem
+  aktuellen Vorrat passen.
+</p>
+
+
+<div class="filters">
+
+  <button
+    type="button"
+    [class.active]="filter === 'alle'"
+    (click)="setFilter('alle')"
+  >
+    Alle
+  </button>
+
+  <button
+    type="button"
+    [class.active]="filter === 'kochbar'"
+    (click)="setFilter('kochbar')"
+  >
+    100 % kochbar
+  </button>
+
+  <button
+    type="button"
+    [class.active]="filter === 'fast kochbar'"
+    (click)="setFilter('fast kochbar')"
+  >
+    Fast kochbar
+  </button>
+
+  <button
+    type="button"
+    [class.active]="filter === 'nicht kochbar'"
+    (click)="setFilter('nicht kochbar')"
+  >
+    Nicht kochbar
+  </button>
+
+</div>
+
+
+@if (loading) {
+  <p>Empfehlungen werden geladen...</p>
+}
+
+
+@if (errorMessage) {
+  <p class="error">
+    {{ errorMessage }}
+  </p>
+}
+
+
+@if (
+  !loading &&
+  !errorMessage &&
+  recommendations.length === 0
+) {
+
+  <p>
+    Noch keine Rezepte vorhanden.
+  </p>
+
+}
+
+
+@if (
+  !loading &&
+  filteredRecommendations.length === 0 &&
+  recommendations.length > 0
+) {
+
+  <p>
+    Für diesen Filter wurden keine
+    passenden Rezepte gefunden.
+  </p>
+
+}
+
+
+@if (!loading && filteredRecommendations.length > 0) {
+
+  <div class="recommendation-grid">
+
+    @for (
+      item of filteredRecommendations;
+      track item.recipe._id
+    ) {
+
+      <article class="recommendation-card">
+
+        <div class="card-header">
+
+          <h2>
+            {{ item.recipe.name }}
+          </h2>
+
+          <span
+            class="status"
+            [class.status-cookable]="
+              item.match.category === 'kochbar'
+            "
+            [class.status-almost]="
+              item.match.category === 'fast kochbar'
+            "
+            [class.status-not-cookable]="
+              item.match.category === 'nicht kochbar'
+            "
+          >
+            {{ item.match.category }}
+          </span>
+
+        </div>
+
+
+        <p>
+          {{ item.recipe.description }}
+        </p>
+
+
+        <div class="match-value">
+
+          <strong>
+            {{ item.match.matchPercent }} %
+          </strong>
+
+          passend
+
+        </div>
+
+
+        <div class="match-bar">
+
+          <div
+            class="match-bar-value"
+            [style.width.%]="
+              item.match.matchPercent
+            "
+          ></div>
+
+        </div>
+
+
+        <p>
+          <strong>
+            Vorhanden:
+          </strong>
+
+          {{ item.match.matchedIngredients }}
+          von
+          {{ item.match.totalIngredients }}
+          Zutaten
+        </p>
+
+
+        <!-- NEU: bald ablaufende Zutaten -->
+        @if (
+          getExpiringIngredients(
+            item.recipe
+          ).length > 0
+        ) {
+
+          <div class="expiry-warning">
+
+            <strong>
+              Bald ablaufende Zutaten verwenden
+            </strong>
+
+            <ul>
+
+              @for (
+                ingredient
+                of getExpiringIngredients(
+                  item.recipe
+                );
+                track ingredient._id
+              ) {
+
+                <li>
+                  {{ ingredient.name }}
+                </li>
+
+              }
+
+            </ul>
+
+          </div>
+
+        }
+
+
+        @if (
+          item.match.missingIngredients.length > 0
+        ) {
+
+          <div class="missing">
+
+            <h3>
+              Fehlende Zutaten
+            </h3>
+
+            <ul>
+
+              @for (
+                ingredient
+                of item.match.missingIngredients;
+                track $index
+              ) {
+
+                <li>
+                  {{ ingredient.missingQuantity }}
+                  {{ ingredient.unit }}
+                  {{ ingredient.name }}
+                </li>
+
+              }
+
+            </ul>
+
+          </div>
+
+        } @else {
+
+          <p class="complete">
+            Alle Zutaten vorhanden.
+          </p>
+
+        }
+
+
+        <a
+          [routerLink]="[
+            '/rezepte',
+            item.recipe._id
+          ]"
+        >
+          Rezept ansehen
+        </a>
+
+      </article>
+
+    }
+
+  </div>
+
+}

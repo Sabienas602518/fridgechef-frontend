@@ -5,6 +5,7 @@ import { VorratDetail } from './pages/vorrat-detail/vorrat-detail';
 import { Rezepte } from './pages/rezepte/rezepte';
 import { RezeptCreate } from './pages/rezept-create/rezept-create';
 import { RezeptDetail } from './pages/rezept-detail/rezept-detail';
+import { Empfehlungen } from './pages/empfehlungen/empfehlungen';
 
 export const routes: Routes = [
 { path: '', component: Home, pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
 { path: 'rezepte', component: Rezepte },
 { path: 'rezepte/neu', component: RezeptCreate },
 { path: 'rezepte/:id', component: RezeptDetail },
+{ path: 'empfehlungen', component: Empfehlungen },
 { path: '**', redirectTo: '' }
 ];

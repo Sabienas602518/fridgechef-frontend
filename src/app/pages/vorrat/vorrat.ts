@@ -125,6 +125,21 @@ export class Vorrat implements OnInit {
     }
 
   }
+  // Datum von dd/mm/yyyy in ein Date umwandeln
+  
+  parseDate(value: string): Date | undefined {
+  const parts = value.split('/');
+
+  if (parts.length !== 3) {
+    return undefined;
+  }
+
+  const day = Number(parts[0]);
+  const month = Number(parts[1]) - 1;
+  const year = Number(parts[2]);
+
+  return new Date(year, month, day);
+}
 
 
   // CREATE
@@ -159,12 +174,12 @@ export class Vorrat implements OnInit {
       category:
         this.form.value.category ?? '',
 
-      expiryDate:
+     expiryDate:
+  this.form.value.expiryDate
+    ? this.parseDate(
         this.form.value.expiryDate
-          ? new Date(
-              this.form.value.expiryDate
-            )
-          : undefined
+      )
+    : undefined
 
     };
 
@@ -204,6 +219,90 @@ export class Vorrat implements OnInit {
 
     }
 
+  }
+ // ABLAUF-STATUS
+  getExpiryStatus(
+    ingredient: Ingredient
+  ): string {
+
+    if (!ingredient.expiryDate) {
+      return 'kein Ablaufdatum';
+    }
+
+
+    const today = new Date();
+
+    today.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
+
+    const expiryDate =
+      new Date(
+        ingredient.expiryDate
+      );
+
+    expiryDate.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
+
+    const millisecondsPerDay =
+      1000 * 60 * 60 * 24;
+
+
+    const difference =
+      Math.ceil(
+        (
+          expiryDate.getTime() -
+          today.getTime()
+        ) /
+        millisecondsPerDay
+      );
+
+
+    if (difference < 0) {
+      return 'abgelaufen';
+    }
+
+
+    if (difference <= 3) {
+      return 'bald ablaufend';
+    }
+
+
+    return 'haltbar';
+  }
+
+
+  // CSS-Klasse passend zum Status
+  getExpiryClass(
+    ingredient: Ingredient
+  ): string {
+
+    const status =
+      this.getExpiryStatus(
+        ingredient
+      );
+
+
+    if (status === 'abgelaufen') {
+      return 'expired';
+    }
+
+
+    if (status === 'bald ablaufend') {
+      return 'expiring-soon';
+    }
+
+
+    return 'expiry-ok';
   }
 
 

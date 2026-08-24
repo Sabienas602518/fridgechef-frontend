@@ -1,0 +1,41 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 28px;
+
+  background: #f5f6f7;
+}
+
+.brand {
+  font-size: 24px;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.nav-links a {
+  color: #333333;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+
+  nav {
+    padding: 16px;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+}

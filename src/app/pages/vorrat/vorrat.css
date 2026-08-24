@@ -35,19 +35,15 @@ select {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-
   border: 1px solid #cccccc;
   border-radius: 6px;
-
   font: inherit;
 }
 
 button {
   padding: 9px 14px;
-
   border: 1px solid #999999;
   border-radius: 6px;
-
   cursor: pointer;
 }
 
@@ -82,11 +78,38 @@ th {
   white-space: nowrap;
 }
 
+
+/* Ablaufstatus */
+
+.expired,
+.expiring-soon,
+.expiry-ok {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.expired {
+  background: #f8dddd;
+}
+
+.expiring-soon {
+  background: #fff2c7;
+}
+
+.expiry-ok {
+  background: #dff5e1;
+}
+
+
+/* Sicherheitsabfrage */
+
 .delete-confirmation {
   max-width: 500px;
   margin-top: 24px;
   padding: 20px;
-
   border: 1px solid #cccccc;
   border-radius: 8px;
 }
@@ -94,6 +117,9 @@ th {
 .delete-confirmation button {
   margin-right: 8px;
 }
+
+
+/* Responsive */
 
 @media (max-width: 700px) {
 

@@ -1,21 +1,12 @@
 <h1>Mein Vorrat</h1>
 
-
 <h2>Zutat hinzufügen</h2>
 
-
-<form
-  [formGroup]="form"
-  (ngSubmit)="addIngredient()"
->
-
+<form [formGroup]="form" (ngSubmit)="addIngredient()">
 
   <!-- Name -->
   <div>
-
-    <label for="name">
-      Name
-    </label>
+    <label for="name">Name</label>
 
     <input
       id="name"
@@ -23,29 +14,20 @@
       formControlName="name"
     >
 
-
     @if (
       form.controls.name.invalid &&
       form.controls.name.touched
     ) {
-
       <p class="error">
-        Der Name muss mindestens
-        2 Zeichen haben.
+        Der Name muss mindestens 2 Zeichen haben.
       </p>
-
     }
-
   </div>
-
 
 
   <!-- Menge -->
   <div>
-
-    <label for="quantity">
-      Menge
-    </label>
+    <label for="quantity">Menge</label>
 
     <input
       id="quantity"
@@ -53,183 +35,105 @@
       formControlName="quantity"
     >
 
-
     @if (
       form.controls.quantity.invalid &&
       form.controls.quantity.touched
     ) {
-
       <p class="error">
         Die Menge muss größer als 0 sein.
       </p>
-
     }
-
   </div>
-
 
 
   <!-- Einheit -->
   <div>
-
-    <label for="unit">
-      Einheit
-    </label>
+    <label for="unit">Einheit</label>
 
     <select
       id="unit"
       formControlName="unit"
     >
-
-      <option value="">
-        Bitte wählen
-      </option>
-
-      <option value="Stück">
-        Stück
-      </option>
-
-      <option value="g">
-        g
-      </option>
-
-      <option value="kg">
-        kg
-      </option>
-
-      <option value="ml">
-        ml
-      </option>
-
-      <option value="l">
-        l
-      </option>
-
+      <option value="">Bitte wählen</option>
+      <option value="Stück">Stück</option>
+      <option value="g">g</option>
+      <option value="kg">kg</option>
+      <option value="ml">ml</option>
+      <option value="l">l</option>
     </select>
-
 
     @if (
       form.controls.unit.invalid &&
       form.controls.unit.touched
     ) {
-
       <p class="error">
         Bitte eine Einheit auswählen.
       </p>
-
     }
-
   </div>
-
 
 
   <!-- Kategorie -->
   <div>
-
-    <label for="category">
-      Kategorie
-    </label>
+    <label for="category">Kategorie</label>
 
     <select
       id="category"
       formControlName="category"
     >
-
-      <option value="">
-        Bitte wählen
-      </option>
-
-      <option value="Gemüse">
-        Gemüse
-      </option>
-
-      <option value="Obst">
-        Obst
-      </option>
-
-      <option value="Milchprodukte">
-        Milchprodukte
-      </option>
-
-      <option value="Fleisch">
-        Fleisch
-      </option>
-
-      <option value="Getreide">
-        Getreide
-      </option>
-
-      <option value="Sonstiges">
-        Sonstiges
-      </option>
-
+      <option value="">Bitte wählen</option>
+      <option value="Gemüse">Gemüse</option>
+      <option value="Obst">Obst</option>
+      <option value="Milchprodukte">Milchprodukte</option>
+      <option value="Fleisch">Fleisch</option>
+      <option value="Getreide">Getreide</option>
+      <option value="Sonstiges">Sonstiges</option>
     </select>
-
 
     @if (
       form.controls.category.invalid &&
       form.controls.category.touched
     ) {
-
       <p class="error">
         Bitte eine Kategorie auswählen.
       </p>
-
     }
-
   </div>
-
 
 
   <!-- Ablaufdatum -->
   <div>
+    <label for="expiryDate">Ablaufdatum</label>
 
-    <label for="expiryDate">
-      Ablaufdatum
-    </label>
-
-    <input
-      id="expiryDate"
-      type="date"
-      formControlName="expiryDate"
-    >
-
+   <input
+  id="expiryDate"
+  type="text"
+  formControlName="expiryDate"
+   placeholder="TT/MM/JJJJ"
+   >
   </div>
 
 
-
-  <!-- Zutat speichern -->
-  <button
-    type="submit"
-  >
+  <!-- Speichern -->
+  <button type="submit">
     Zutat hinzufügen
   </button>
-
 
 </form>
 
 
-
 <!-- Ladezustand -->
 @if (loading) {
-
-  <p>
-    Vorrat wird geladen...
-  </p>
-
+  <p>Vorrat wird geladen...</p>
 }
-
 
 
 <!-- Fehlermeldung -->
 @if (errorMessage) {
-
   <p class="error">
     {{ errorMessage }}
   </p>
-
 }
-
 
 
 <!-- Empty State -->
@@ -238,13 +142,10 @@
   !errorMessage &&
   ingredients.length === 0
 ) {
-
   <p>
     Noch keine Zutaten im Vorrat.
   </p>
-
 }
-
 
 
 <!-- Vorratsliste -->
@@ -253,56 +154,27 @@
   ingredients.length > 0
 ) {
 
-  <h2>
-    Meine Zutaten
-  </h2>
-
+  <h2>Meine Zutaten</h2>
 
   <div class="table-container">
 
     <table>
 
-
       <thead>
-
         <tr>
-
-          <th>
-            Name
-          </th>
-
-          <th>
-            Menge
-          </th>
-
-          <th>
-            Einheit
-          </th>
-
-          <th>
-            Kategorie
-          </th>
-
-          <th>
-            Ablaufdatum
-          </th>
-
-          <th>
-            Bearbeiten
-          </th>
-
-          <th>
-            Löschen
-          </th>
-
+          <th>Name</th>
+          <th>Menge</th>
+          <th>Einheit</th>
+          <th>Kategorie</th>
+          <th>Ablaufdatum</th>
+          <th>Status</th>
+          <th>Bearbeiten</th>
+          <th>Löschen</th>
         </tr>
-
       </thead>
 
 
-
       <tbody>
-
 
         @for (
           ingredient of ingredients;
@@ -311,46 +183,45 @@
 
           <tr>
 
-
             <td>
               {{ ingredient.name }}
             </td>
-
 
             <td>
               {{ ingredient.quantity }}
             </td>
 
-
             <td>
               {{ ingredient.unit }}
             </td>
-
 
             <td>
               {{ ingredient.category }}
             </td>
 
 
+            <!-- Ablaufdatum -->
             <td>
-
               @if (ingredient.expiryDate) {
-
                 {{ ingredient.expiryDate }}
-
               } @else {
-
                 -
-
               }
-
             </td>
 
+
+          
+            <td>
+              <span
+                [class]="getExpiryClass(ingredient)"
+              >
+                {{ getExpiryStatus(ingredient) }}
+              </span>
+            </td>
 
 
             <!-- Bearbeiten -->
             <td>
-
               <a
                 [routerLink]="[
                   '/vorrat',
@@ -359,38 +230,29 @@
               >
                 Bearbeiten
               </a>
-
             </td>
-
 
 
             <!-- Löschen -->
             <td>
-
               <button
                 type="button"
                 (click)="delete(ingredient)"
               >
                 Löschen
               </button>
-
             </td>
-
 
           </tr>
 
         }
 
-
       </tbody>
-
 
     </table>
 
   </div>
-
 }
-
 
 
 <!-- Sicherheitsabfrage beim Löschen -->
@@ -401,24 +263,15 @@
 
   <div class="delete-confirmation">
 
-
-    <h3>
-      Zutat löschen
-    </h3>
-
+    <h3>Zutat löschen</h3>
 
     <p>
-
       Möchtest du
-
       <strong>
         {{ ingredient.name }}
       </strong>
-
       wirklich löschen?
-
     </p>
-
 
     <button
       type="button"
@@ -427,7 +280,6 @@
       Ja, löschen
     </button>
 
-
     <button
       type="button"
       (click)="cancel()"
@@ -435,7 +287,5 @@
       Abbrechen
     </button>
 
-
   </div>
-
 }
