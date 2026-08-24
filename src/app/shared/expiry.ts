@@ -44,8 +44,7 @@ export function getExpiryStatus(
   const expiryDate = new Date(ingredient.expiryDate);
   expiryDate.setHours(0, 0, 0, 0);
 
-  const millisecondsPerDay =
-    1000 * 60 * 60 * 24;
+  const millisecondsPerDay = 1000 * 60 * 60 * 24;
 
   const difference = Math.ceil(
     (
@@ -70,8 +69,7 @@ export function getExpiryClass(
   ingredient: Ingredient
 ): string {
 
-  const status =
-    getExpiryStatus(ingredient);
+  const status = getExpiryStatus(ingredient);
 
   if (status === 'abgelaufen') {
     return 'expired';
@@ -88,8 +86,6 @@ export function isExpiringSoon(
   ingredient: Ingredient
 ): boolean {
 
-  return (
-    getExpiryStatus(ingredient) ===
-    'bald ablaufend'
-  );
+  return getExpiryStatus(ingredient) ===
+    'bald ablaufend';
 }

@@ -1,59 +1,376 @@
-# FridgechefFrontend
+# FridgeChef Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.3.
+FridgeChef ist eine Webanwendung zur Verwaltung eines Lebensmittelvorrats und von Rezepten.
 
-## Development server
+Die Anwendung unterstützt Nutzer dabei, den eigenen Vorrat zu verwalten und passende Rezepte zu finden.
 
-To start a local development server, run:
+Ein besonderes Feature ist die Matching-Funktion. Dabei werden die Zutaten eines Rezeptes mit den vorhandenen Zutaten im Vorrat verglichen.
+
+## Funktionen
+
+Das Frontend bietet:
+
+- Navigation zwischen den Bereichen
+- Vorratsverwaltung
+- Zutaten hinzufügen
+- Zutaten anzeigen
+- Zutaten bearbeiten
+- Zutaten löschen
+- Formularvalidierung
+- Ablaufstatus für Lebensmittel
+- Rezeptverwaltung
+- Rezepte anlegen
+- Rezepte anzeigen
+- Rezepte bearbeiten
+- Rezepte löschen
+- Rezeptdetailseite
+- Anzeige von Zutaten und Zubereitungsschritten
+- Empfehlungsseite „Was kann ich kochen?“
+- Match-Prozent
+- Status:
+  - kochbar
+  - fast kochbar
+  - nicht kochbar
+- Anzeige fehlender Zutaten
+- Filter für Rezeptempfehlungen
+- Sortierung nach Match-Prozent
+- Hinweis auf bald ablaufende Zutaten
+- Responsive Design
+- Loading States
+- Empty States
+- Fehlermeldungen
+- Sicherheitsabfragen beim Löschen
+
+## Technologien
+
+Für das Frontend werden verwendet:
+
+- Angular
+- TypeScript
+- HTML
+- CSS
+- Reactive Forms
+- Angular Router
+- Fetch API
+- Git
+- GitHub
+
+## Voraussetzungen
+
+Für die lokale Ausführung werden benötigt:
+
+- Node.js
+- npm
+- Git
+- laufendes FridgeChef-Backend
+
+Das Backend muss standardmäßig unter folgender Adresse erreichbar sein:
+
+```text
+http://localhost:3000
+```
+
+## Installation
+
+Repository klonen:
+
+```bash
+git clone https://github.com/Sabienas602518/fridgechef-frontend.git
+```
+
+In den Projektordner wechseln:
+
+```bash
+cd fridgechef-frontend
+```
+
+Abhängigkeiten installieren:
+
+```bash
+npm install
+```
+
+Frontend starten:
+
+```bash
+npm start
+```
+
+Alternativ:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Anschließend ist die Anwendung erreichbar unter:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```text
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Backend-Verbindung
 
-```bash
-ng generate --help
+Die Kommunikation mit dem Backend erfolgt über den `BackendService`.
+
+Die Basisadresse lautet:
+
+```text
+http://localhost:3000/api
 ```
 
-## Building
+Beispiele:
 
-To build the project run:
-
-```bash
-ng build
+```text
+/api/ingredients
+/api/recipes
+/api/matching/:recipeId
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Seiten
 
-## Running unit tests
+### Home
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Startseite der Anwendung.
 
-```bash
-ng test
+```text
+/
 ```
 
-## Running end-to-end tests
+### Vorrat
 
-For end-to-end (e2e) testing, run:
+Verwaltung der vorhandenen Lebensmittel.
 
-```bash
-ng e2e
+```text
+/vorrat
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Funktionen:
 
-## Additional Resources
+- Zutaten anzeigen
+- Zutat hinzufügen
+- bearbeiten
+- löschen
+- Ablaufdatum auswerten
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Rezepte
+
+Übersicht aller Rezepte.
+
+```text
+/rezepte
+```
+
+### Neues Rezept
+
+```text
+/rezepte/neu
+```
+
+### Rezeptdetails
+
+```text
+/rezepte/:id
+```
+
+Hier werden unter anderem Zutaten, Zubereitung und das Bearbeitungsformular angezeigt.
+
+### Empfehlungen
+
+```text
+/empfehlungen
+```
+
+Auf dieser Seite werden Rezepte passend zum aktuellen Vorrat angezeigt.
+
+Die Rezepte werden nach dem Match-Prozent sortiert.
+
+Es stehen Filter zur Verfügung für:
+
+- alle
+- 100 % kochbar
+- fast kochbar
+- nicht kochbar
+
+Fehlende Zutaten werden ebenfalls angezeigt.
+
+## Matching
+
+Das eigentliche Matching wird im Backend berechnet.
+
+Das Frontend erhält ein Ergebnis wie:
+
+```json
+{
+  "recipeName": "Tomatennudeln",
+  "matchPercent": 100,
+  "category": "kochbar"
+}
+```
+
+Das Frontend nutzt diese Daten für:
+
+- Sortierung
+- Filter
+- Statusanzeige
+- Fortschrittsbalken
+- Anzeige fehlender Zutaten
+
+## Ablaufdatum
+
+Lebensmittel können anhand ihres Ablaufdatums eingeteilt werden in:
+
+```text
+abgelaufen
+bald ablaufend
+haltbar
+```
+
+Bald ablaufende Zutaten können zusätzlich bei passenden Rezepten hervorgehoben werden.
+
+Die gemeinsame Ablauf-Logik befindet sich im Shared-Bereich.
+
+## Responsive Design
+
+Die Anwendung wurde für verschiedene Bildschirmgrößen getestet.
+
+Unter anderem:
+
+```text
+Smartphone
+Tablet
+Desktop
+```
+
+Über Media Queries werden Navigation, Cards, Tabellen und Formulare an kleinere Bildschirmgrößen angepasst.
+
+## Fehlerbehandlung
+
+Die Anwendung berücksichtigt unter anderem:
+
+- Backend nicht erreichbar
+- leere Listen
+- ungültige Formulare
+- fehlerhafte API-Anfragen
+- Ladezustände
+- Speicherzustände
+- nicht vorhandene Daten
+
+## Projektstruktur
+
+```text
+src/app
+├── nav
+├── pages
+│   ├── home
+│   ├── vorrat
+│   ├── vorrat-detail
+│   ├── rezepte
+│   ├── rezept-create
+│   ├── rezept-detail
+│   └── empfehlungen
+├── shared
+│   ├── backend.ts
+│   ├── ingredient.ts
+│   ├── recipe.ts
+│   ├── matching.ts
+│   └── expiry.ts
+└── app.routes.ts
+```
+
+## Screenshots
+
+Hier können Screenshots der wichtigsten Seiten ergänzt werden.
+
+### Vorrat
+
+```text
+[Screenshot Vorratsseite]
+```
+
+### Rezepte
+
+```text
+[Screenshot Rezeptübersicht]
+```
+
+### Empfehlungsseite
+
+```text
+[Screenshot „Was kann ich kochen?“]
+```
+
+### Responsive Ansicht
+
+```text
+[Screenshot Smartphone / Tablet]
+```
+
+## Tests
+
+Folgende User-Flows wurden während der Entwicklung geprüft:
+
+1. Zutat anlegen
+2. Zutat anzeigen
+3. Zutat bearbeiten
+4. Zutat löschen
+5. Rezept anlegen
+6. Rezept anzeigen
+7. Rezept bearbeiten
+8. Rezept löschen
+9. Rezeptdetails anzeigen
+10. Empfehlungen laden
+11. Matching berechnen
+12. Filter anwenden
+13. fehlende Zutaten anzeigen
+14. Ablaufstatus anzeigen
+15. Responsive Design prüfen
+16. Backend-Ausfall behandeln
+17. ungültige Formulare behandeln
+
+## Installation von Null
+
+Die Installation wurde zusätzlich in einem separaten Testordner geprüft.
+
+Dabei wurden:
+
+- Backend frisch von GitHub geklont
+- `npm install` ausgeführt
+- `.env` neu angelegt
+- Seed-Skript ausgeführt
+- Backend gestartet
+- Frontend frisch von GitHub geklont
+- `npm install` ausgeführt
+- Angular gestartet
+- wichtigste User-Flows getestet
+
+Damit wurde geprüft, dass das Projekt auch außerhalb der ursprünglichen Entwicklungsumgebung gestartet werden kann.
+
+## KI-Werkzeuge
+
+Bei der Entwicklung wurde ChatGPT unterstützend verwendet.
+
+Einsatzbereiche:
+
+- Erklärung von Angular und TypeScript
+- Unterstützung bei der Fehlersuche
+- Erklärung von Compiler- und Runtime-Fehlern
+- Vorschläge für REST- und Matching-Logik
+- Unterstützung bei Responsive Design
+- Refactoring
+- Testplanung
+- Dokumentation
+
+Die Vorschläge wurden in das eigene Projekt integriert, angepasst und praktisch getestet.
+
+## Backend
+
+Das Backend befindet sich in einem separaten Repository:
+
+```text
+fridgechef-backend
+```
+
+## Autorin
+
+WebTech-Semesterprojekt  
+FridgeChef
