@@ -4,5 +4,5 @@ export interface Ingredient {
   quantity: number;
   unit: string;
   category: string;
-  expiryDate?: Date;
+  expiryDate?: Date | string;
 }

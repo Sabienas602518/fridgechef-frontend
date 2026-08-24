@@ -2,20 +2,21 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 28px;
-
+  gap: 24px;
+  padding: 24px;
   background: #f5f6f7;
 }
 
 .brand {
   font-size: 24px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .nav-links {
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .nav-links a {
@@ -28,14 +29,18 @@ nav {
   text-decoration: underline;
 }
 
+
+/* Smartphone */
+
 @media (max-width: 700px) {
 
   nav {
+    align-items: flex-start;
     padding: 16px;
   }
 
   .nav-links {
+    flex-direction: column;
     gap: 12px;
   }
-
 }

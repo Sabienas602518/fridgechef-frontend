@@ -115,9 +115,19 @@
 
 
   <!-- Speichern -->
-  <button type="submit">
+<button
+  type="submit"
+  [disabled]="
+    form.invalid ||
+    saving
+  "
+>
+  @if (saving) {
+    Wird gespeichert...
+  } @else {
     Zutat hinzufügen
-  </button>
+  }
+</button>
 
 </form>
 

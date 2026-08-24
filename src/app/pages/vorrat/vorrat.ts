@@ -1,71 +1,47 @@
-import {
-  Component,
-  inject,
-  OnInit
-} from '@angular/core';
-
+import {ChangeDetectorRef,Component, inject,OnInit} from '@angular/core';
 import { RouterLink } from '@angular/router';
-
+import { FormControl, FormGroup,ReactiveFormsModule, Validators} from '@angular/forms';
+import { BackendService } from '../../shared/backend';
+import { Ingredient } from '../../shared/ingredient';
 import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-
-import { BackendService }
-  from '../../shared/backend';
-
-import { Ingredient }
-  from '../../shared/ingredient';
+  getExpiryClass as calculateExpiryClass,
+  getExpiryStatus as calculateExpiryStatus,
+  parseGermanDate } from '../../shared/expiry';
 
 
 @Component({
   selector: 'app-vorrat',
-
   imports: [
     ReactiveFormsModule,
     RouterLink
   ],
-
   templateUrl: './vorrat.html',
   styleUrl: './vorrat.css'
 })
 export class Vorrat implements OnInit {
 
   private bs = inject(BackendService);
+  private cdr = inject(ChangeDetectorRef);
 
-
-  // Alle Zutaten aus dem Backend
   ingredients: Ingredient[] = [];
 
-
-  // Zutat, die gelöscht werden soll
   ingredient: Ingredient | null = null;
 
-
-  // Steuert die Sicherheitsabfrage
   deleteStatus = false;
 
-
-  // Ladezustand
   loading = true;
 
+  saving = false;
 
-  // Fehlermeldung
   errorMessage = '';
 
 
-  // Formular zum Hinzufügen
   form = new FormGroup({
 
-    name: new FormControl(
-      '',
-      [
-        Validators.required,
-        Validators.minLength(2)
-      ]
-    ),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2)
+    ]),
 
     quantity:
       new FormControl<number | null>(
@@ -86,27 +62,19 @@ export class Vorrat implements OnInit {
       Validators.required
     ),
 
-    expiryDate:
-      new FormControl('')
-
+    expiryDate: new FormControl('')
   });
 
 
   ngOnInit(): void {
-
     this.loadIngredients();
-
   }
 
 
-  // READ
-  // Alle Zutaten laden
   async loadIngredients() {
 
     this.loading = true;
-
     this.errorMessage = '';
-
 
     try {
 
@@ -116,45 +84,46 @@ export class Vorrat implements OnInit {
     } catch {
 
       this.errorMessage =
-        'Vorrat konnte nicht geladen werden.';
+        'Vorrat konnte nicht geladen werden. Ist das Backend gestartet?';
 
     } finally {
 
       this.loading = false;
 
+      this.cdr.markForCheck();
     }
-
-  }
-  // Datum von dd/mm/yyyy in ein Date umwandeln
-  
-  parseDate(value: string): Date | undefined {
-  const parts = value.split('/');
-
-  if (parts.length !== 3) {
-    return undefined;
   }
 
-  const day = Number(parts[0]);
-  const month = Number(parts[1]) - 1;
-  const year = Number(parts[2]);
 
-  return new Date(year, month, day);
-}
-
-
-  // CREATE
-  // Neue Zutat hinzufügen
   async addIngredient() {
 
-    // Formular überprüfen
     if (this.form.invalid) {
-
-      // Damit die Fehlermeldungen
-      // im HTML sichtbar werden
       this.form.markAllAsTouched();
-
       return;
+    }
 
+
+    let expiryDate:
+      Date | undefined = undefined;
+
+
+    const expiryValue =
+      this.form.value.expiryDate ?? '';
+
+
+    if (expiryValue) {
+
+      expiryDate =
+        parseGermanDate(expiryValue);
+
+
+      if (!expiryDate) {
+
+        this.errorMessage =
+          'Bitte das Ablaufdatum als TT/MM/JJJJ eingeben.';
+
+        return;
+      }
     }
 
 
@@ -174,14 +143,12 @@ export class Vorrat implements OnInit {
       category:
         this.form.value.category ?? '',
 
-     expiryDate:
-  this.form.value.expiryDate
-    ? this.parseDate(
-        this.form.value.expiryDate
-      )
-    : undefined
-
+      expiryDate
     };
+
+
+    this.saving = true;
+    this.errorMessage = '';
 
 
     try {
@@ -191,24 +158,15 @@ export class Vorrat implements OnInit {
       );
 
 
-      // Formular nach erfolgreichem
-      // Speichern zurücksetzen
       this.form.reset({
-
         name: '',
-
         quantity: 1,
-
         unit: '',
-
         category: '',
-
         expiryDate: ''
-
       });
 
 
-      // Tabelle neu laden
       await this.loadIngredients();
 
 
@@ -217,110 +175,46 @@ export class Vorrat implements OnInit {
       this.errorMessage =
         'Zutat konnte nicht gespeichert werden.';
 
-    }
 
+    } finally {
+
+      this.saving = false;
+
+      this.cdr.markForCheck();
+    }
   }
- // ABLAUF-STATUS
+
+
   getExpiryStatus(
     ingredient: Ingredient
   ): string {
 
-    if (!ingredient.expiryDate) {
-      return 'kein Ablaufdatum';
-    }
-
-
-    const today = new Date();
-
-    today.setHours(
-      0,
-      0,
-      0,
-      0
+    return calculateExpiryStatus(
+      ingredient
     );
-
-
-    const expiryDate =
-      new Date(
-        ingredient.expiryDate
-      );
-
-    expiryDate.setHours(
-      0,
-      0,
-      0,
-      0
-    );
-
-
-    const millisecondsPerDay =
-      1000 * 60 * 60 * 24;
-
-
-    const difference =
-      Math.ceil(
-        (
-          expiryDate.getTime() -
-          today.getTime()
-        ) /
-        millisecondsPerDay
-      );
-
-
-    if (difference < 0) {
-      return 'abgelaufen';
-    }
-
-
-    if (difference <= 3) {
-      return 'bald ablaufend';
-    }
-
-
-    return 'haltbar';
   }
 
 
-  // CSS-Klasse passend zum Status
   getExpiryClass(
     ingredient: Ingredient
   ): string {
 
-    const status =
-      this.getExpiryStatus(
-        ingredient
-      );
-
-
-    if (status === 'abgelaufen') {
-      return 'expired';
-    }
-
-
-    if (status === 'bald ablaufend') {
-      return 'expiring-soon';
-    }
-
-
-    return 'expiry-ok';
+    return calculateExpiryClass(
+      ingredient
+    );
   }
 
 
-  // DELETE vorbereiten
   delete(
     ingredient: Ingredient
   ): void {
 
-    // Ausgewählte Zutat merken
     this.ingredient = ingredient;
 
-    // Sicherheitsabfrage anzeigen
     this.deleteStatus = true;
-
   }
 
 
-  // DELETE bestätigen
   confirm(): void {
 
     if (!this.ingredient?._id) {
@@ -334,13 +228,10 @@ export class Vorrat implements OnInit {
       )
       .then(() => {
 
-        // Sicherheitsabfrage schließen
         this.deleteStatus = false;
 
-        // Auswahl zurücksetzen
         this.ingredient = null;
 
-        // Tabelle aktualisieren
         return this.loadIngredients();
 
       })
@@ -349,18 +240,15 @@ export class Vorrat implements OnInit {
         this.errorMessage =
           'Zutat konnte nicht gelöscht werden.';
 
+        this.cdr.markForCheck();
       });
-
   }
 
 
-  // DELETE abbrechen
   cancel(): void {
 
     this.deleteStatus = false;
 
     this.ingredient = null;
-
   }
-
 }
