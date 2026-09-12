@@ -1,0 +1,418 @@
+:host {
+  display: block;
+}
+
+
+/* HERO */
+
+.hero {
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 60px;
+
+  padding: 70px max(7vw, 30px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4faf4 0%,
+      #ffffff 55%,
+      #fff9ed 100%
+    );
+}
+
+
+.hero-content {
+  max-width: 680px;
+}
+
+
+.badge {
+  display: inline-block;
+
+  margin-bottom: 22px;
+  padding: 9px 16px;
+
+  border-radius: 999px;
+
+  background: #e7f4e8;
+  color: #2d6a38;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+.hero h1 {
+  margin: 0 0 24px;
+
+  font-size: clamp(46px, 6vw, 76px);
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+
+  color: #18221a;
+}
+
+
+.hero p {
+  max-width: 600px;
+
+  margin: 0;
+
+  font-size: 20px;
+  line-height: 1.7;
+
+  color: #5c655e;
+}
+
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  margin-top: 35px;
+}
+
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 50px;
+
+  padding: 0 24px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+  font-weight: 600;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+
+.primary {
+  background: #347a45;
+  color: white;
+
+  box-shadow: 0 8px 20px rgba(52, 122, 69, 0.2);
+}
+
+
+.primary:hover {
+  box-shadow: 0 12px 28px rgba(52, 122, 69, 0.28);
+}
+
+
+.secondary {
+  border: 1px solid #d3d9d4;
+
+  background: white;
+  color: #253028;
+}
+
+
+/* HERO CARD */
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+
+.fridge-card {
+  width: min(100%, 400px);
+
+  padding: 40px;
+
+  border: 1px solid #e4e8e4;
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  box-shadow:
+    0 20px 60px rgba(31, 49, 35, 0.12);
+}
+
+
+.fridge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 70px;
+  height: 70px;
+
+  margin-bottom: 24px;
+
+  border-radius: 20px;
+
+  background: #ecf6ed;
+
+  font-size: 34px;
+}
+
+
+.fridge-card h2 {
+  margin: 0 0 12px;
+
+  font-size: 27px;
+
+  color: #1d2a20;
+}
+
+
+.fridge-card p {
+  margin-bottom: 25px;
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+
+.ingredient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.ingredient-list span {
+  padding: 12px 14px;
+
+  border-radius: 10px;
+
+  background: #f7f8f7;
+
+  color: #323b34;
+}
+
+
+/* FEATURES */
+
+.features {
+  padding: 90px max(7vw, 30px);
+}
+
+
+.section-heading {
+  max-width: 650px;
+
+  margin: 0 auto 50px;
+
+  text-align: center;
+}
+
+
+.section-heading > span {
+  color: #347a45;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
+.section-heading h2 {
+  margin: 12px 0 14px;
+
+  font-size: 38px;
+
+  color: #18221a;
+}
+
+
+.section-heading p {
+  margin: 0;
+
+  color: #69716b;
+
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+
+/* FEATURE CARDS */
+
+.feature-grid {
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 24px;
+}
+
+
+.feature-card {
+  display: block;
+
+  padding: 30px;
+
+  border: 1px solid #e3e7e3;
+  border-radius: 18px;
+
+  background: white;
+
+  color: inherit;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.feature-card:hover {
+  transform: translateY(-5px);
+
+  border-color: #bfd5c3;
+
+  box-shadow: 0 15px 35px rgba(26, 45, 31, 0.1);
+}
+
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 55px;
+  height: 55px;
+
+  margin-bottom: 20px;
+
+  border-radius: 14px;
+
+  background: #edf6ee;
+
+  font-size: 26px;
+}
+
+
+.feature-card h3 {
+  margin: 0 0 12px;
+
+  font-size: 23px;
+
+  color: #1e2920;
+}
+
+
+.feature-card p {
+  min-height: 75px;
+
+  margin: 0 0 20px;
+
+  color: #667068;
+
+  line-height: 1.6;
+}
+
+
+.card-link {
+  color: #347a45;
+
+  font-weight: 600;
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+  .hero {
+    grid-template-columns: 1fr;
+
+    min-height: auto;
+
+    padding-top: 60px;
+    padding-bottom: 70px;
+  }
+
+
+  .hero-visual {
+    justify-content: flex-start;
+  }
+
+
+  .feature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* SMARTPHONE */
+
+@media (max-width: 650px) {
+
+  .hero {
+    padding:
+      45px 20px
+      55px;
+  }
+
+
+  .hero h1 {
+    font-size: 44px;
+    letter-spacing: -1px;
+  }
+
+
+  .hero p {
+    font-size: 17px;
+  }
+
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+
+  .button {
+    width: 100%;
+  }
+
+
+  .fridge-card {
+    padding: 28px;
+  }
+
+
+  .features {
+    padding:
+      65px 20px;
+  }
+
+
+  .section-heading h2 {
+    font-size: 30px;
+  }
+
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .feature-card p {
+    min-height: auto;
+  }
+}
