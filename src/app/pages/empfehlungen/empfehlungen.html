@@ -25,6 +25,7 @@
 
     <button
       type="button"
+      class="btn btn-outline-success"
       [class.active]="
         filter === 'alle'
       "
@@ -38,6 +39,7 @@
 
     <button
       type="button"
+      class="btn btn-outline-success"
       [class.active]="
         filter === 'kochbar'
       "
@@ -51,6 +53,7 @@
 
     <button
       type="button"
+      class="btn btn-outline-success"
       [class.active]="
         filter === 'fast kochbar'
       "
@@ -64,6 +67,7 @@
 
     <button
       type="button"
+      class="btn btn-outline-success"
       [class.active]="
         filter === 'nicht kochbar'
       "
@@ -88,18 +92,24 @@
 
     @if (loading) {
 
-      <p class="info-message">
+      <div
+        class="alert alert-light info-message"
+        role="alert"
+      >
         Empfehlungen werden geladen...
-      </p>
+      </div>
 
     }
 
 
     @if (errorMessage) {
 
-      <p class="error">
+      <div
+        class="alert alert-danger error"
+        role="alert"
+      >
         {{ errorMessage }}
-      </p>
+      </div>
 
     }
 
@@ -110,9 +120,12 @@
       recommendations.length === 0
     ) {
 
-      <p class="info-message">
+      <div
+        class="alert alert-light info-message"
+        role="alert"
+      >
         Noch keine eigenen Rezepte vorhanden.
-      </p>
+      </div>
 
     }
 
@@ -123,10 +136,13 @@
       recommendations.length > 0
     ) {
 
-      <p class="info-message">
+      <div
+        class="alert alert-light info-message"
+        role="alert"
+      >
         Für diesen Filter wurden keine
         passenden Rezepte gefunden.
-      </p>
+      </div>
 
     }
 
@@ -145,7 +161,6 @@
         ) {
 
           <article class="recommendation-card">
-
 
             <div class="card-header">
 
@@ -228,7 +243,10 @@
               item.match.missingIngredients.length > 0
             ) {
 
-              <div class="missing">
+              <div
+                class="alert alert-warning missing"
+                role="alert"
+              >
 
                 <strong>
                   🛒 Fehlende Zutaten
@@ -260,9 +278,12 @@
 
             } @else {
 
-              <p class="complete">
+              <div
+                class="alert alert-success complete"
+                role="alert"
+              >
                 ✅ Alle Zutaten vorhanden.
-              </p>
+              </div>
 
             }
 
@@ -273,7 +294,10 @@
               ).length > 0
             ) {
 
-              <div class="expiry-warning">
+              <div
+                class="alert alert-warning expiry-warning"
+                role="alert"
+              >
 
                 <strong>
                   ⏰ Bald ablaufende Zutaten verwenden
@@ -307,7 +331,7 @@
                 '/rezepte',
                 item.recipe._id
               ]"
-              class="details-link"
+              class="btn btn-outline-success details-link"
             >
               Rezept ansehen →
             </a>
@@ -347,18 +371,24 @@
 
     @if (onlineLoading) {
 
-      <p class="info-message">
+      <div
+        class="alert alert-light info-message"
+        role="alert"
+      >
         Online-Rezepte werden geladen...
-      </p>
+      </div>
 
     }
 
 
     @if (onlineErrorMessage) {
 
-      <p class="error">
+      <div
+        class="alert alert-danger error"
+        role="alert"
+      >
         {{ onlineErrorMessage }}
-      </p>
+      </div>
 
     }
 
@@ -369,9 +399,12 @@
       onlineRecipes.length === 0
     ) {
 
-      <p class="info-message">
+      <div
+        class="alert alert-light info-message"
+        role="alert"
+      >
         Keine Online-Rezepte gefunden.
-      </p>
+      </div>
 
     }
 
@@ -391,15 +424,14 @@
 
           <article class="online-card">
 
-
             <img
+              class="img-fluid"
               [src]="recipe.image"
               [alt]="recipe.title"
             >
 
 
             <div class="online-card-content">
-
 
               <div class="online-card-header">
 
@@ -461,7 +493,10 @@
                 recipe.missingIngredients.length > 0
               ) {
 
-                <div class="online-missing">
+                <div
+                  class="alert alert-warning online-missing"
+                  role="alert"
+                >
 
                   <strong>
                     🛒 Fehlt noch:
@@ -491,9 +526,12 @@
 
               } @else {
 
-                <p class="online-complete">
+                <div
+                  class="alert alert-success online-complete"
+                  role="alert"
+                >
                   ✅ Alle Zutaten vorhanden
-                </p>
+                </div>
 
               }
 
@@ -504,7 +542,7 @@
                   [href]="recipe.sourceUrl"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="online-link"
+                  class="btn btn-outline-success online-link"
                 >
                   Rezept im Internet öffnen →
                 </a>
@@ -518,7 +556,7 @@
                   [href]="recipe.youtube"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="youtube-link"
+                  class="btn btn-outline-danger youtube-link"
                 >
                   ▶ Video ansehen
                 </a>
