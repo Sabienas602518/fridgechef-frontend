@@ -1,250 +1,540 @@
-<h1>Was kann ich kochen?</h1>
-
-<p>
-  Hier siehst du, welche Rezepte zu deinem
-  aktuellen Vorrat passen.
-</p>
-
-
-<div class="filters">
-
-  <button
-    type="button"
-    [class.active]="filter === 'alle'"
-    (click)="setFilter('alle')"
-  >
-    Alle
-  </button>
-
-  <button
-    type="button"
-    [class.active]="filter === 'kochbar'"
-    (click)="setFilter('kochbar')"
-  >
-    100 % kochbar
-  </button>
-
-  <button
-    type="button"
-    [class.active]="filter === 'fast kochbar'"
-    (click)="setFilter('fast kochbar')"
-  >
-    Fast kochbar
-  </button>
-
-  <button
-    type="button"
-    [class.active]="filter === 'nicht kochbar'"
-    (click)="setFilter('nicht kochbar')"
-  >
-    Nicht kochbar
-  </button>
-
-</div>
-
-
-@if (loading) {
-  <p>Empfehlungen werden geladen...</p>
-}
-
-
-@if (errorMessage) {
-  <p class="error">
-    {{ errorMessage }}
-  </p>
-}
-
-
-@if (
-  !loading &&
-  !errorMessage &&
-  recommendations.length === 0
-) {
-
-  <p>
-    Noch keine Rezepte vorhanden.
-  </p>
-
-}
-
-
-@if (
-  !loading &&
-  filteredRecommendations.length === 0 &&
-  recommendations.length > 0
-) {
-
-  <p>
-    Für diesen Filter wurden keine
-    passenden Rezepte gefunden.
-  </p>
-
-}
-
-
-@if (!loading && filteredRecommendations.length > 0) {
-
-  <div class="recommendation-grid">
-
-    @for (
-      item of filteredRecommendations;
-      track item.recipe._id
-    ) {
-
-      <article class="recommendation-card">
-
-        <div class="card-header">
-
-          <h2>
-            {{ item.recipe.name }}
-          </h2>
-
-          <span
-            class="status"
-            [class.status-cookable]="
-              item.match.category === 'kochbar'
-            "
-            [class.status-almost]="
-              item.match.category === 'fast kochbar'
-            "
-            [class.status-not-cookable]="
-              item.match.category === 'nicht kochbar'
-            "
-          >
-            {{ item.match.category }}
-          </span>
-
-        </div>
-
-
-        <p>
-          {{ item.recipe.description }}
-        </p>
-
-
-        <div class="match-value">
-
-          <strong>
-            {{ item.match.matchPercent }} %
-          </strong>
-
-          passend
-
-        </div>
-
-
-        <div class="match-bar">
-
-          <div
-            class="match-bar-value"
-            [style.width.%]="
-              item.match.matchPercent
-            "
-          ></div>
-
-        </div>
-
-
-        <p>
-          <strong>
-            Vorhanden:
-          </strong>
-
-          {{ item.match.matchedIngredients }}
-          von
-          {{ item.match.totalIngredients }}
-          Zutaten
-        </p>
-
-
-        <!-- NEU: bald ablaufende Zutaten -->
-        @if (
-          getExpiringIngredients(
-            item.recipe
-          ).length > 0
-        ) {
-
-          <div class="expiry-warning">
-
-            <strong>
-              Bald ablaufende Zutaten verwenden
-            </strong>
-
-            <ul>
-
-              @for (
-                ingredient
-                of getExpiringIngredients(
-                  item.recipe
-                );
-                track ingredient._id
-              ) {
-
-                <li>
-                  {{ ingredient.name }}
-                </li>
-
-              }
-
-            </ul>
-
-          </div>
-
-        }
-
-
-        @if (
-          item.match.missingIngredients.length > 0
-        ) {
-
-          <div class="missing">
-
-            <h3>
-              Fehlende Zutaten
-            </h3>
-
-            <ul>
-
-              @for (
-                ingredient
-                of item.match.missingIngredients;
-                track $index
-              ) {
-
-                <li>
-                  {{ ingredient.missingQuantity }}
-                  {{ ingredient.unit }}
-                  {{ ingredient.name }}
-                </li>
-
-              }
-
-            </ul>
-
-          </div>
-
-        } @else {
-
-          <p class="complete">
-            Alle Zutaten vorhanden.
-          </p>
-
-        }
-
-
-        <a
-          [routerLink]="[
-            '/rezepte',
-            item.recipe._id
-          ]"
-        >
-          Rezept ansehen
-        </a>
-
-      </article>
-
-    }
+<main class="recommendations-page">
+
+  <section class="page-heading">
+
+    <span class="eyebrow">
+      ✨ FRIDGECHEF
+    </span>
+
+    <h1>
+      Was kann ich kochen?
+    </h1>
+
+    <p>
+      FridgeChef vergleicht deinen Vorrat
+      mit deinen Rezepten und zeigt dir,
+      was du kochen kannst.
+    </p>
+
+  </section>
+
+
+  <!-- FILTER -->
+
+  <div class="filters">
+
+    <button
+      type="button"
+      [class.active]="
+        filter === 'alle'
+      "
+      (click)="
+        setFilter('alle')
+      "
+    >
+      Alle
+    </button>
+
+
+    <button
+      type="button"
+      [class.active]="
+        filter === 'kochbar'
+      "
+      (click)="
+        setFilter('kochbar')
+      "
+    >
+      ✅ 100 % kochbar
+    </button>
+
+
+    <button
+      type="button"
+      [class.active]="
+        filter === 'fast kochbar'
+      "
+      (click)="
+        setFilter('fast kochbar')
+      "
+    >
+      ⚠️ Fast kochbar
+    </button>
+
+
+    <button
+      type="button"
+      [class.active]="
+        filter === 'nicht kochbar'
+      "
+      (click)="
+        setFilter('nicht kochbar')
+      "
+    >
+      ❌ Nicht kochbar
+    </button>
 
   </div>
 
-}
+
+  <!-- EIGENE REZEPTE -->
+
+  <section class="own-section">
+
+    <h2>
+      📖 Meine Rezepte
+    </h2>
+
+
+    @if (loading) {
+
+      <p class="info-message">
+        Empfehlungen werden geladen...
+      </p>
+
+    }
+
+
+    @if (errorMessage) {
+
+      <p class="error">
+        {{ errorMessage }}
+      </p>
+
+    }
+
+
+    @if (
+      !loading &&
+      !errorMessage &&
+      recommendations.length === 0
+    ) {
+
+      <p class="info-message">
+        Noch keine eigenen Rezepte vorhanden.
+      </p>
+
+    }
+
+
+    @if (
+      !loading &&
+      filteredRecommendations.length === 0 &&
+      recommendations.length > 0
+    ) {
+
+      <p class="info-message">
+        Für diesen Filter wurden keine
+        passenden Rezepte gefunden.
+      </p>
+
+    }
+
+
+    @if (
+      !loading &&
+      filteredRecommendations.length > 0
+    ) {
+
+      <div class="recommendation-grid">
+
+        @for (
+          item
+          of filteredRecommendations;
+          track item.recipe._id
+        ) {
+
+          <article class="recommendation-card">
+
+
+            <div class="card-header">
+
+              <div>
+
+                <h3>
+                  🍲 {{ item.recipe.name }}
+                </h3>
+
+                <p class="description">
+                  {{ item.recipe.description }}
+                </p>
+
+              </div>
+
+
+              <span
+                class="status"
+                [class.status-cookable]="
+                  item.match.category ===
+                  'kochbar'
+                "
+                [class.status-almost]="
+                  item.match.category ===
+                  'fast kochbar'
+                "
+                [class.status-not-cookable]="
+                  item.match.category ===
+                  'nicht kochbar'
+                "
+              >
+                {{ item.match.category }}
+              </span>
+
+            </div>
+
+
+            <div class="match-value">
+
+              <strong>
+                {{ item.match.matchPercent }} %
+              </strong>
+
+              passend
+
+            </div>
+
+
+            <div class="match-bar">
+
+              <div
+                class="match-bar-value"
+                [style.width.%]="
+                  item.match.matchPercent
+                "
+              >
+              </div>
+
+            </div>
+
+
+            <p>
+
+              <strong>
+                Vorhanden:
+              </strong>
+
+              {{ item.match.matchedIngredients }}
+
+              von
+
+              {{ item.match.totalIngredients }}
+
+              Zutaten
+
+            </p>
+
+
+            @if (
+              item.match.missingIngredients.length > 0
+            ) {
+
+              <div class="missing">
+
+                <strong>
+                  🛒 Fehlende Zutaten
+                </strong>
+
+                <ul>
+
+                  @for (
+                    ingredient
+                    of item.match.missingIngredients;
+                    track $index
+                  ) {
+
+                    <li>
+
+                      {{ ingredient.missingQuantity }}
+
+                      {{ ingredient.unit }}
+
+                      {{ ingredient.name }}
+
+                    </li>
+
+                  }
+
+                </ul>
+
+              </div>
+
+            } @else {
+
+              <p class="complete">
+                ✅ Alle Zutaten vorhanden.
+              </p>
+
+            }
+
+
+            @if (
+              getExpiringIngredients(
+                item.recipe
+              ).length > 0
+            ) {
+
+              <div class="expiry-warning">
+
+                <strong>
+                  ⏰ Bald ablaufende Zutaten verwenden
+                </strong>
+
+                <ul>
+
+                  @for (
+                    ingredient
+                    of getExpiringIngredients(
+                      item.recipe
+                    );
+                    track ingredient._id
+                  ) {
+
+                    <li>
+                      {{ ingredient.name }}
+                    </li>
+
+                  }
+
+                </ul>
+
+              </div>
+
+            }
+
+
+            <a
+              [routerLink]="[
+                '/rezepte',
+                item.recipe._id
+              ]"
+              class="details-link"
+            >
+              Rezept ansehen →
+            </a>
+
+          </article>
+
+        }
+
+      </div>
+
+    }
+
+  </section>
+
+
+  <!-- ONLINE-REZEPTE -->
+
+  <section class="online-section">
+
+    <div class="online-heading">
+
+      <span>
+        🌍 ONLINE
+      </span>
+
+      <h2>
+        Rezepte aus dem Internet
+      </h2>
+
+      <p>
+        Diese Rezepte werden automatisch
+        anhand deines Vorrats gesucht.
+      </p>
+
+    </div>
+
+
+    @if (onlineLoading) {
+
+      <p class="info-message">
+        Online-Rezepte werden geladen...
+      </p>
+
+    }
+
+
+    @if (onlineErrorMessage) {
+
+      <p class="error">
+        {{ onlineErrorMessage }}
+      </p>
+
+    }
+
+
+    @if (
+      !onlineLoading &&
+      !onlineErrorMessage &&
+      onlineRecipes.length === 0
+    ) {
+
+      <p class="info-message">
+        Keine Online-Rezepte gefunden.
+      </p>
+
+    }
+
+
+    @if (
+      !onlineLoading &&
+      onlineRecipes.length > 0
+    ) {
+
+      <div class="online-grid">
+
+        @for (
+          recipe
+          of onlineRecipes;
+          track recipe.id
+        ) {
+
+          <article class="online-card">
+
+
+            <img
+              [src]="recipe.image"
+              [alt]="recipe.title"
+            >
+
+
+            <div class="online-card-content">
+
+
+              <div class="online-card-header">
+
+                <h3>
+                  {{ recipe.title }}
+                </h3>
+
+
+                <span
+                  class="online-status"
+                  [class.online-cookable]="
+                    recipe.category ===
+                    'kochbar'
+                  "
+                  [class.online-almost]="
+                    recipe.category ===
+                    'fast kochbar'
+                  "
+                  [class.online-not-cookable]="
+                    recipe.category ===
+                    'nicht kochbar'
+                  "
+                >
+                  {{ recipe.category }}
+                </span>
+
+              </div>
+
+
+              <p class="online-match">
+
+                <strong>
+                  {{ recipe.matchPercent }} %
+                </strong>
+
+                passend
+
+              </p>
+
+
+              <p>
+
+                <strong>
+                  Vorhanden:
+                </strong>
+
+                {{ recipe.matchedIngredients }}
+
+                von
+
+                {{ recipe.totalIngredients }}
+
+                Zutaten
+
+              </p>
+
+
+              @if (
+                recipe.missingIngredients.length > 0
+              ) {
+
+                <div class="online-missing">
+
+                  <strong>
+                    🛒 Fehlt noch:
+                  </strong>
+
+                  <ul>
+
+                    @for (
+                      ingredient
+                      of recipe.missingIngredients;
+                      track $index
+                    ) {
+
+                      <li>
+
+                        {{ ingredient.measure }}
+
+                        {{ ingredient.name }}
+
+                      </li>
+
+                    }
+
+                  </ul>
+
+                </div>
+
+              } @else {
+
+                <p class="online-complete">
+                  ✅ Alle Zutaten vorhanden
+                </p>
+
+              }
+
+
+              @if (recipe.sourceUrl) {
+
+                <a
+                  [href]="recipe.sourceUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="online-link"
+                >
+                  Rezept im Internet öffnen →
+                </a>
+
+              }
+
+
+              @if (recipe.youtube) {
+
+                <a
+                  [href]="recipe.youtube"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="youtube-link"
+                >
+                  ▶ Video ansehen
+                </a>
+
+              }
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    }
+
+  </section>
+
+</main>

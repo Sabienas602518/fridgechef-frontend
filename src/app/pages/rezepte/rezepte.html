@@ -1,164 +1,134 @@
-<h1>Rezepte</h1>
-
+<h1>📖 Rezepte</h1>
 
 <a
-  class="create-link"
   routerLink="/rezepte/neu"
+  class="create-link"
 >
-  Neues Rezept anlegen
+  ➕ Neues Rezept anlegen
 </a>
 
-
 @if (loading) {
-
-  <p>
+  <p class="info-text">
     Rezepte werden geladen...
   </p>
-
 }
 
-
 @if (errorMessage) {
-
   <p class="error">
     {{ errorMessage }}
   </p>
-
 }
-
 
 @if (
   !loading &&
   !errorMessage &&
   recipes.length === 0
 ) {
-
-  <p>
+  <p class="empty-state">
     Noch keine Rezepte vorhanden.
   </p>
-
 }
-
 
 @if (
   !loading &&
   recipes.length > 0
 ) {
-
   <div class="recipe-grid">
-
 
     @for (
       recipe of recipes;
       track recipe._id
     ) {
-
       <article class="recipe-card">
 
+        <div class="recipe-header">
+          <div>
+            <h2>🍽 {{ recipe.name }}</h2>
+            <p class="description">
+              {{ recipe.description }}
+            </p>
+          </div>
 
-        <h2>
-          {{ recipe.name }}
-        </h2>
+          <span
+            class="difficulty-badge"
+            [class.easy]="recipe.difficulty === 'einfach'"
+            [class.medium]="recipe.difficulty === 'mittel'"
+            [class.hard]="recipe.difficulty === 'schwer'"
+          >
+            {{ recipe.difficulty }}
+          </span>
+        </div>
 
+        <div class="recipe-meta">
+          <p>
+            <strong>⏱ Dauer:</strong>
+            {{ recipe.duration }} Minuten
+          </p>
 
-        <p>
-          {{ recipe.description }}
-        </p>
+          <p>
+            <strong>👥 Portionen:</strong>
+            {{ recipe.servings }}
+          </p>
 
+          <p>
+            <strong>📌 Schwierigkeit:</strong>
+            {{ recipe.difficulty }}
+          </p>
+        </div>
 
-        <p>
-          <strong>Dauer:</strong>
-
-          {{ recipe.duration }}
-          Minuten
-        </p>
-
-
-        <p>
-          <strong>Portionen:</strong>
-
-          {{ recipe.servings }}
-        </p>
-
-
-        <p>
-          <strong>Schwierigkeit:</strong>
-
-          {{ recipe.difficulty }}
-        </p>
-
-
-        <div class="actions">
-
+        <div class="card-actions">
           <a
             [routerLink]="[
               '/rezepte',
               recipe._id
             ]"
+            class="details-link"
           >
             Details / Bearbeiten
           </a>
 
-
           <button
             type="button"
+            class="danger-button"
             (click)="delete(recipe)"
           >
-            Löschen
+            🗑 Löschen
           </button>
-
         </div>
 
-
       </article>
-
     }
 
   </div>
-
 }
-
 
 @if (
   deleteStatus &&
   recipeToDelete
 ) {
-
   <div class="delete-confirmation">
-
-    <h2>
-      Rezept löschen
-    </h2>
-
+    <h3>🗑 Rezept löschen</h3>
 
     <p>
-
       Möchtest du
-
-      <strong>
-        {{ recipeToDelete.name }}
-      </strong>
-
+      <strong>{{ recipeToDelete.name }}</strong>
       wirklich löschen?
-
     </p>
-
 
     <button
       type="button"
+      class="danger-button"
       (click)="confirmDelete()"
     >
       Ja, löschen
     </button>
 
-
     <button
       type="button"
+      class="secondary-button"
       (click)="cancelDelete()"
     >
       Abbrechen
     </button>
-
   </div>
-
 }

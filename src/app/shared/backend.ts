@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Ingredient } from './ingredient';
 import { Recipe } from './recipe';
 import { RecipeMatch } from './matching';
+import { OnlineRecipe } from './online-recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -230,18 +231,41 @@ export class BackendService {
 
 
   // MATCHING
-async getRecipeMatch(recipeId: string): Promise<RecipeMatch> {
-  const response = await fetch(
-    this.apiURL + '/matching/' + recipeId
-  );
 
-  if (!response.ok) {
-    throw new Error(
-      'Matching konnte nicht geladen werden'
+  async getRecipeMatch(
+    recipeId: string
+  ): Promise<RecipeMatch> {
+
+    const response = await fetch(
+      this.apiURL + '/matching/' + recipeId
     );
+
+    if (!response.ok) {
+      throw new Error(
+        'Matching konnte nicht geladen werden'
+      );
+    }
+
+    return await response.json();
   }
 
-  return await response.json();
-}
+
+  // ONLINE-REZEPTE
+
+  async getOnlineRecipes():
+    Promise<OnlineRecipe[]> {
+
+    const response = await fetch(
+      this.apiURL + '/online-recipes'
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        'Online-Rezepte konnten nicht geladen werden'
+      );
+    }
+
+    return await response.json();
+  }
 
 }

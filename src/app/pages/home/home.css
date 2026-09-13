@@ -1,5 +1,6 @@
 :host {
   display: block;
+   background: #f7fbf8;
 }
 
 
@@ -14,13 +15,14 @@
 
   padding: 70px max(7vw, 30px);
 
-  background:
-    linear-gradient(
-      135deg,
-      #f4faf4 0%,
-      #ffffff 55%,
-      #fff9ed 100%
-    );
+   background:
+  linear-gradient(
+    135deg,
+    #dff3e4 0%,
+    #f4fbf6 35%,
+    #fff3d9 70%,
+    #eaf4ff 100%
+  );
 }
 
 
@@ -204,6 +206,13 @@
 
 .features {
   padding: 90px max(7vw, 30px);
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f0f8f2 100%
+    );
 }
 
 

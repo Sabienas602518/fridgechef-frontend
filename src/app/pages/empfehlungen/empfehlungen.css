@@ -1,165 +1,611 @@
 :host {
   display: block;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 32px 24px 50px;
 }
 
+
+/* ÜBERSCHRIFT */
+
 h1 {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  font-size: 3rem;
+  color: #1e2a20;
 }
+
+.intro-text {
+  margin-bottom: 26px;
+  font-size: 1.15rem;
+  color: #4c564f;
+}
+
+
+/* FILTER */
 
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+
   margin-top: 24px;
-  margin-bottom: 28px;
+  margin-bottom: 30px;
 }
 
 .filters button {
-  padding: 10px 14px;
-  border: 1px solid #cccccc;
-  border-radius: 8px;
+  padding: 11px 16px;
+
+  border: 1px solid #d5dfd6;
+  border-radius: 12px;
+
   background: white;
+
   cursor: pointer;
+
+  font: inherit;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.filters button:hover {
+  background: #f4faf4;
+  transform: translateY(-1px);
 }
 
 .filters button.active {
-  font-weight: 700;
-  border-color: #333333;
+  background: #e8f4ea;
+  border-color: #9ec7a7;
+  color: #2f7a43;
+}
+
+
+/* MELDUNGEN */
+
+.info-text,
+.info-message,
+.empty-state {
+  padding: 14px 16px;
+
+  border-radius: 10px;
+
+  background: #f7faf7;
+}
+
+.error {
+  padding: 14px 16px;
+
+  border-radius: 10px;
+
+  background: #fff3f3;
+  color: #b74141;
+
+  font-weight: 600;
+}
+
+
+/* EIGENE REZEPTE */
+
+.own-section {
+  margin-top: 35px;
+}
+
+.own-section h2 {
+  margin-bottom: 24px;
+
+  font-size: 2rem;
+
+  color: #1e2a20;
 }
 
 .recommendation-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(350px, 1fr)
-  );
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(380px, 1fr)
+    );
+
   gap: 30px;
 }
 
 .recommendation-card {
-  padding: 20px;
-  border: 1px solid #dddddd;
-  border-radius: 20px;
+  padding: 24px;
+
+  border: 1px solid #e2ece3;
+  border-radius: 22px;
+
   background: white;
+
+  box-shadow:
+    0 10px 25px
+    rgba(0, 0, 0, 0.04);
 }
 
 .card-header {
   display: flex;
+
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
+
+  gap: 14px;
 }
 
-.card-header h2 {
+.card-header h2,
+.card-header h3 {
   margin-top: 0;
+  margin-bottom: 10px;
+
+  font-size: 2.1rem;
+
+  color: #1f2a21;
 }
+
+.description {
+  margin: 0 0 16px;
+
+  color: #4d5750;
+}
+
+
+/* STATUS */
 
 .status {
-  padding: 6px 10px;
+  padding: 8px 12px;
+
   border-radius: 999px;
+
   white-space: nowrap;
-  font-size: 0.9rem;
-  font-weight: 600;
+
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .status-cookable {
-  background: #dff5e1;
+  background: #dff3e3;
+  color: #2f7a43;
 }
 
 .status-almost {
-  background: #fff2c7;
+  background: #fff3cf;
+  color: #9a6a00;
 }
 
 .status-not-cookable {
-  background: #f8dddd;
+  background: #fde3e3;
+  color: #a53b3b;
 }
+
+
+/* MATCHING */
 
 .match-value {
   margin-top: 20px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+
   font-size: 1.1rem;
 }
 
 .match-value strong {
-  font-size: 1.5rem;
+  font-size: 2rem;
+
+  color: #1c2a20;
 }
 
 .match-bar {
   width: 100%;
-  height: 12px;
+  height: 14px;
+
   margin-bottom: 18px;
+
   border-radius: 999px;
-  background: #eeeeee;
+
+  background: #edf1ee;
+
   overflow: hidden;
 }
 
 .match-bar-value {
   height: 100%;
-  background: #555555;
+
   border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #72b585 0%,
+      #347a45 100%
+    );
 }
+
+.available-text {
+  margin-bottom: 18px;
+
+  font-size: 1.05rem;
+}
+
+
+/* FEHLENDE ZUTATEN */
 
 .missing {
   margin-top: 18px;
   margin-bottom: 18px;
+
+  padding: 16px;
+
+  border: 1px solid #f0d9a2;
+  border-radius: 14px;
+
+  background: #fff8e7;
 }
 
 .missing h3 {
-  margin-bottom: 8px;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .missing ul {
+  margin: 0;
+
   padding-left: 22px;
 }
 
+
+/* ALLE ZUTATEN VORHANDEN */
+
 .complete {
-  font-weight: 600;
+  margin-top: 18px;
+  margin-bottom: 18px;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background: #eef8f0;
+
+  color: #2f7a43;
+
+  font-weight: 700;
 }
 
-.error {
-  font-weight: 600;
-}
 
-
-/* Bald ablaufende Zutaten */
+/* BALD ABLAUFENDE ZUTATEN */
 
 .expiry-warning {
   margin-top: 18px;
   margin-bottom: 18px;
+
   padding: 14px;
+
   border: 1px solid #e2c36b;
-  border-radius: 8px;
+  border-radius: 12px;
+
   background: #fff8dc;
 }
 
 .expiry-warning strong {
   display: block;
+
   margin-bottom: 8px;
 }
 
 .expiry-warning ul {
   margin: 0;
+
   padding-left: 22px;
 }
 
 
-/* Responsive */
+/* REZEPT-LINK */
 
-@media (max-width: 700px) {
+.details-link {
+  display: inline-block;
+
+  margin-top: 6px;
+
+  color: #2f7a43;
+
+  text-decoration: none;
+
+  font-weight: 700;
+}
+
+.details-link:hover {
+  text-decoration: underline;
+}
+
+
+/* ================================================ */
+/* ONLINE-REZEPTE                                   */
+/* ================================================ */
+
+.online-section {
+  margin-top: 80px;
+
+  padding-top: 50px;
+
+  border-top: 1px solid #dfe7e0;
+}
+
+.online-heading {
+  margin-bottom: 30px;
+}
+
+.online-heading > span {
+  color: #347a45;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.online-heading h2 {
+  margin: 8px 0 10px;
+
+  font-size: 36px;
+
+  color: #1e2a20;
+}
+
+.online-heading p {
+  margin: 0;
+
+  color: #616b63;
+
+  font-size: 17px;
+}
+
+
+/* ONLINE-KARTEN */
+
+.online-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(320px, 1fr)
+    );
+
+  gap: 25px;
+}
+
+.online-card {
+  overflow: hidden;
+
+  border: 1px solid #e1e8e2;
+  border-radius: 20px;
+
+  background: white;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.06);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.online-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 14px 35px
+    rgba(0, 0, 0, 0.09);
+}
+
+.online-card img {
+  display: block;
+
+  width: 100%;
+  height: 230px;
+
+  object-fit: cover;
+}
+
+.online-card-content {
+  padding: 22px;
+}
+
+.online-card-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 12px;
+}
+
+.online-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+
+  font-size: 24px;
+
+  color: #1e2920;
+}
+
+
+/* ONLINE-STATUS */
+
+.online-status {
+  display: inline-block;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.online-cookable {
+  background: #dff3e3;
+  color: #2f7a43;
+}
+
+.online-almost {
+  background: #fff2c7;
+  color: #936600;
+}
+
+.online-not-cookable {
+  background: #fde3e3;
+  color: #a53b3b;
+}
+
+
+/* ONLINE-MATCHING */
+
+.online-match {
+  margin-top: 18px;
+  margin-bottom: 12px;
+}
+
+.online-match strong {
+  font-size: 30px;
+
+  color: #347a45;
+}
+
+
+/* ONLINE-FEHLENDE ZUTATEN */
+
+.online-missing {
+  margin: 18px 0;
+
+  padding: 15px;
+
+  border-radius: 12px;
+
+  background: #fff8e7;
+}
+
+.online-missing strong {
+  display: block;
+
+  margin-bottom: 8px;
+}
+
+.online-missing ul {
+  margin-bottom: 0;
+
+  padding-left: 22px;
+}
+
+
+/* ONLINE: ALLES VORHANDEN */
+
+.online-complete {
+  margin: 18px 0;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  background: #eef8f0;
+
+  color: #2f7a43;
+
+  font-weight: 700;
+}
+
+
+/* ONLINE-LINKS */
+
+.online-link,
+.youtube-link {
+  display: inline-block;
+
+  margin-top: 10px;
+  margin-right: 14px;
+
+  color: #347a45;
+
+  text-decoration: none;
+
+  font-weight: 700;
+}
+
+.online-link:hover,
+.youtube-link:hover {
+  text-decoration: underline;
+}
+
+.youtube-link {
+  color: #a53b3b;
+}
+
+
+/* TABLET */
+
+@media (max-width: 800px) {
 
   :host {
-    padding: 12px;
+    padding: 25px 18px 45px;
   }
 
-  .card-header {
-    display: block;
+  h1 {
+    font-size: 2.5rem;
   }
 
-  .status {
-    display: inline-block;
-    margin-bottom: 10px;
+  .card-header,
+  .online-card-header {
+    flex-direction: column;
+  }
+
+  .recommendation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .online-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* SMARTPHONE */
+
+@media (max-width: 650px) {
+
+  :host {
+    padding: 20px 14px 40px;
+  }
+
+  h1 {
+    font-size: 2.3rem;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters button {
+    width: 100%;
+  }
+
+  .card-header h2,
+  .card-header h3 {
+    font-size: 1.8rem;
+  }
+
+  .online-heading h2 {
+    font-size: 30px;
+  }
+
+  .online-card img {
+    height: 200px;
+  }
+
+  .online-card-header {
+    flex-direction: column;
   }
 }
