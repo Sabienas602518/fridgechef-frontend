@@ -6,6 +6,9 @@ Die Anwendung unterstützt Nutzer dabei, den eigenen Vorrat zu verwalten und pas
 
 Ein besonderes Feature ist die Matching-Funktion. Dabei werden die Zutaten eines Rezeptes mit den vorhandenen Zutaten im Vorrat verglichen.
 
+Zusätzlich können automatisch Online-Rezepte geladen werden. Diese werden vom Backend über TheMealDB gesucht und anhand des aktuellen Vorrats bewertet.
+
+
 ## Funktionen
 
 Das Frontend bietet:
@@ -35,11 +38,19 @@ Das Frontend bietet:
 - Filter für Rezeptempfehlungen
 - Sortierung nach Match-Prozent
 - Hinweis auf bald ablaufende Zutaten
+- automatische Online-Rezeptempfehlungen
+- Laden externer Rezepte über das Backend
+- Bilder für Online-Rezepte
+- Match-Prozent für Online-Rezepte
+- Anzeige fehlender Zutaten bei Online-Rezepten
+- Links zu Originalrezepten
+- Links zu Rezeptvideos, falls vorhanden
 - Responsive Design
 - Loading States
 - Empty States
 - Fehlermeldungen
 - Sicherheitsabfragen beim Löschen
+
 
 ## Technologien
 
@@ -55,6 +66,9 @@ Für das Frontend werden verwendet:
 - Git
 - GitHub
 
+Die externen Rezeptdaten stammen aus TheMealDB und werden über das FridgeChef-Backend geladen.
+
+
 ## Voraussetzungen
 
 Für die lokale Ausführung werden benötigt:
@@ -69,6 +83,7 @@ Das Backend muss standardmäßig unter folgender Adresse erreichbar sein:
 ```text
 http://localhost:3000
 ```
+
 
 ## Installation
 
@@ -102,13 +117,20 @@ Alternativ:
 ng serve
 ```
 
+Falls PowerShell die Ausführung von `ng` blockiert, kann unter Windows auch verwendet werden:
+
+```bash
+ng.cmd serve
+```
+
 Anschließend ist die Anwendung erreichbar unter:
 
 ```text
 http://localhost:4200
 ```
 
-## Backend-Verbindung
+
+# Backend-Verbindung
 
 Die Kommunikation mit dem Backend erfolgt über den `BackendService`.
 
@@ -118,17 +140,23 @@ Die Basisadresse lautet:
 http://localhost:3000/api
 ```
 
-Beispiele:
+Beispiele für verwendete Endpunkte:
 
 ```text
 /api/ingredients
 /api/recipes
 /api/matching/:recipeId
+/api/online-recipes
 ```
 
-## Seiten
+Der `BackendService` bündelt die HTTP-Anfragen des Frontends.
 
-### Home
+Dadurch müssen die einzelnen Angular-Komponenten die Backend-Adressen nicht selbst verwalten.
+
+
+# Seiten
+
+## Home
 
 Startseite der Anwendung.
 
@@ -136,7 +164,10 @@ Startseite der Anwendung.
 /
 ```
 
-### Vorrat
+Die Startseite bietet einen Überblick über FridgeChef und Links zu den wichtigsten Bereichen.
+
+
+## Vorrat
 
 Verwaltung der vorhandenen Lebensmittel.
 
@@ -148,41 +179,82 @@ Funktionen:
 
 - Zutaten anzeigen
 - Zutat hinzufügen
-- bearbeiten
-- löschen
+- Zutat bearbeiten
+- Zutat löschen
 - Ablaufdatum auswerten
 
-### Rezepte
 
-Übersicht aller Rezepte.
+## Vorrat-Detail
+
+Detailansicht einer einzelnen Vorratszutat.
+
+Hier können Daten einer vorhandenen Zutat angezeigt und bearbeitet werden.
+
+
+## Rezepte
+
+Übersicht aller selbst angelegten Rezepte.
 
 ```text
 /rezepte
 ```
 
-### Neues Rezept
+
+## Neues Rezept
+
+Seite zum Erstellen eines neuen Rezeptes.
 
 ```text
 /rezepte/neu
 ```
 
-### Rezeptdetails
+
+## Rezeptdetails
+
+Detailansicht eines einzelnen Rezeptes.
 
 ```text
 /rezepte/:id
 ```
 
-Hier werden unter anderem Zutaten, Zubereitung und das Bearbeitungsformular angezeigt.
+Hier werden unter anderem angezeigt:
 
-### Empfehlungen
+- Rezeptname
+- Beschreibung
+- Zutaten
+- Mengen
+- Einheiten
+- Zubereitungsschritte
+- weitere Rezeptinformationen
+
+Das Rezept kann dort außerdem bearbeitet werden.
+
+
+## Empfehlungen
 
 ```text
 /empfehlungen
 ```
 
-Auf dieser Seite werden Rezepte passend zum aktuellen Vorrat angezeigt.
+Die Empfehlungsseite zeigt passende Rezepte anhand des aktuellen Vorrats.
 
-Die Rezepte werden nach dem Match-Prozent sortiert.
+Die Seite besteht aus zwei Bereichen.
+
+
+### Eigene Rezepte
+
+Selbst angelegte FridgeChef-Rezepte werden mit dem aktuellen Vorrat verglichen.
+
+Angezeigt werden unter anderem:
+
+- Rezeptname
+- Beschreibung
+- Match-Prozent
+- Kategorie
+- vorhandene Zutaten
+- fehlende Zutaten
+- Fortschrittsbalken
+- Hinweis auf bald ablaufende Zutaten
 
 Es stehen Filter zur Verfügung für:
 
@@ -191,13 +263,51 @@ Es stehen Filter zur Verfügung für:
 - fast kochbar
 - nicht kochbar
 
-Fehlende Zutaten werden ebenfalls angezeigt.
+Die Rezepte werden anhand des Match-Prozentwertes sortiert.
 
-## Matching
+
+### Online-Rezepte
+
+Zusätzlich werden automatisch Rezepte aus dem Internet geladen.
+
+Das Frontend ruft dafür folgenden Backend-Endpunkt auf:
+
+```text
+GET /api/online-recipes
+```
+
+Das Backend sucht über TheMealDB nach Rezepten und vergleicht deren Zutaten mit dem aktuellen Vorrat.
+
+Im Frontend werden unter anderem angezeigt:
+
+- Rezeptname
+- Rezeptbild
+- Match-Prozent
+- Kategorie
+- Anzahl vorhandener Zutaten
+- Anzahl benötigter Zutaten
+- fehlende Zutaten
+- Link zum Originalrezept
+- Link zu einem Rezeptvideo, falls vorhanden
+
+
+# Matching
 
 Das eigentliche Matching wird im Backend berechnet.
 
-Das Frontend erhält ein Ergebnis wie:
+Das Frontend erhält die berechneten Ergebnisse und stellt sie dar.
+
+
+## Eigene Rezepte
+
+Bei eigenen FridgeChef-Rezepten berücksichtigt das Backend:
+
+- Name der Zutat
+- Einheit
+- benötigte Menge
+- vorhandene Menge
+
+Ein Ergebnis kann beispielsweise so aussehen:
 
 ```json
 {
@@ -215,7 +325,17 @@ Das Frontend nutzt diese Daten für:
 - Fortschrittsbalken
 - Anzeige fehlender Zutaten
 
-## Ablaufdatum
+
+## Online-Rezepte
+
+Bei Online-Rezepten wird ein vereinfachtes Matching verwendet.
+
+Da externe Mengenangaben unterschiedlich formatiert sein können, wird hauptsächlich geprüft, ob eine benötigte Zutat im Vorrat vorhanden ist.
+
+Das Frontend erhält vom Backend bereits den berechneten Match-Prozentwert und die Liste fehlender Zutaten.
+
+
+# Ablaufdatum
 
 Lebensmittel können anhand ihres Ablaufdatums eingeteilt werden in:
 
@@ -227,11 +347,36 @@ haltbar
 
 Bald ablaufende Zutaten können zusätzlich bei passenden Rezepten hervorgehoben werden.
 
-Die gemeinsame Ablauf-Logik befindet sich im Shared-Bereich.
+Die gemeinsame Ablauf-Logik befindet sich im Shared-Bereich in:
 
-## Responsive Design
+```text
+src/app/shared/expiry.ts
+```
 
-Die Anwendung wurde für verschiedene Bildschirmgrößen getestet.
+
+# Loading States und Fehlerbehandlung
+
+Beim Laden von Daten zeigt die Anwendung passende Ladezustände an.
+
+Die Anwendung berücksichtigt unter anderem:
+
+- Backend nicht erreichbar
+- Online-Rezepte nicht erreichbar
+- leere Listen
+- ungültige Formulare
+- fehlerhafte API-Anfragen
+- Ladezustände
+- Speicherzustände
+- nicht vorhandene Daten
+
+Für die Online-Rezepte existiert ein eigener Ladezustand und eine eigene Fehlermeldung.
+
+Dadurch können die lokalen Empfehlungen weiterhin unabhängig von den Online-Rezepten verarbeitet werden.
+
+
+# Responsive Design
+
+Die Anwendung wurde für verschiedene Bildschirmgrößen gestaltet.
 
 Unter anderem:
 
@@ -241,21 +386,12 @@ Tablet
 Desktop
 ```
 
-Über Media Queries werden Navigation, Cards, Tabellen und Formulare an kleinere Bildschirmgrößen angepasst.
+Über Media Queries werden Navigation, Karten, Tabellen und Formulare an kleinere Bildschirmgrößen angepasst.
 
-## Fehlerbehandlung
+Die Online-Rezeptkarten werden auf kleineren Bildschirmen ebenfalls untereinander dargestellt.
 
-Die Anwendung berücksichtigt unter anderem:
 
-- Backend nicht erreichbar
-- leere Listen
-- ungültige Formulare
-- fehlerhafte API-Anfragen
-- Ladezustände
-- Speicherzustände
-- nicht vorhandene Daten
-
-## Projektstruktur
+# Projektstruktur
 
 ```text
 src/app
@@ -270,42 +406,73 @@ src/app
 │   └── empfehlungen
 ├── shared
 │   ├── backend.ts
+│   ├── expiry.ts
 │   ├── ingredient.ts
-│   ├── recipe.ts
 │   ├── matching.ts
-│   └── expiry.ts
+│   ├── online-recipe.ts
+│   └── recipe.ts
 └── app.routes.ts
 ```
 
-## Screenshots
 
-Hier können Screenshots der wichtigsten Seiten ergänzt werden.
+# Wichtige Shared-Dateien
 
-### Vorrat
+## backend.ts
 
-```text
-[Screenshot Vorratsseite]
-```
+Der `BackendService` enthält die Kommunikation mit dem Node.js-Backend.
 
-### Rezepte
+Unter anderem werden dort Methoden verwendet für:
 
-```text
-[Screenshot Rezeptübersicht]
-```
+- Zutaten laden
+- Zutaten erstellen
+- Zutaten bearbeiten
+- Zutaten löschen
+- Rezepte laden
+- Rezepte erstellen
+- Rezepte bearbeiten
+- Rezepte löschen
+- Matching laden
+- Online-Rezepte laden
 
-### Empfehlungsseite
 
-```text
-[Screenshot „Was kann ich kochen?“]
-```
+## ingredient.ts
 
-### Responsive Ansicht
+Definiert die TypeScript-Struktur einer Vorratszutat.
 
-```text
-[Screenshot Smartphone / Tablet]
-```
 
-## Tests
+## recipe.ts
+
+Definiert die TypeScript-Struktur eines Rezeptes und seiner Zutaten.
+
+
+## matching.ts
+
+Definiert die TypeScript-Strukturen für die Matching-Ergebnisse des Backends.
+
+
+## online-recipe.ts
+
+Definiert die TypeScript-Strukturen für Online-Rezepte.
+
+Dazu gehören unter anderem:
+
+- Rezept-ID
+- Titel
+- Bild
+- Match-Prozent
+- Kategorie
+- Zutaten
+- fehlende Zutaten
+- Originalquelle
+- YouTube-Link
+
+
+## expiry.ts
+
+Enthält gemeinsam verwendete Funktionen für die Auswertung von Ablaufdaten.
+
+
+# Tests
 
 Folgende User-Flows wurden während der Entwicklung geprüft:
 
@@ -326,8 +493,14 @@ Folgende User-Flows wurden während der Entwicklung geprüft:
 15. Responsive Design prüfen
 16. Backend-Ausfall behandeln
 17. ungültige Formulare behandeln
+18. Online-Rezepte laden
+19. Online-Matching anzeigen
+20. fehlende Online-Zutaten anzeigen
+21. externe Rezeptlinks prüfen
+22. Verhalten bei nicht erreichbaren Online-Rezepten prüfen
 
-## Installation von Null
+
+# Installation von Null
 
 Die Installation wurde zusätzlich in einem separaten Testordner geprüft.
 
@@ -341,17 +514,19 @@ Dabei wurden:
 - Frontend frisch von GitHub geklont
 - `npm install` ausgeführt
 - Angular gestartet
-- wichtigste User-Flows getestet
+- wichtige User-Flows getestet
 
 Damit wurde geprüft, dass das Projekt auch außerhalb der ursprünglichen Entwicklungsumgebung gestartet werden kann.
 
-## KI-Werkzeuge
+
+# KI-Werkzeuge
 
 Bei der Entwicklung wurde ChatGPT unterstützend verwendet.
 
 Einsatzbereiche:
 
 - Erklärung von Angular und TypeScript
+- Erklärung von JavaScript
 - Unterstützung bei der Fehlersuche
 - Erklärung von Compiler- und Runtime-Fehlern
 - Vorschläge für REST- und Matching-Logik
@@ -362,7 +537,8 @@ Einsatzbereiche:
 
 Die Vorschläge wurden in das eigene Projekt integriert, angepasst und praktisch getestet.
 
-## Backend
+
+# Backend
 
 Das Backend befindet sich in einem separaten Repository:
 
@@ -370,7 +546,15 @@ Das Backend befindet sich in einem separaten Repository:
 fridgechef-backend
 ```
 
-## Autorin
+Repository:
 
-WebTech-Semesterprojekt  
+```text
+https://github.com/Sabienas602518/fridgechef-backend
+```
+
+
+# Autorin
+
+WebTech-Semesterprojekt
+
 FridgeChef
