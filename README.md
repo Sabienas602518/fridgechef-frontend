@@ -65,6 +65,7 @@ Für das Frontend werden verwendet:
 - Fetch API
 - Git
 - GitHub
+- Bootstrap 5
 
 Die externen Rezeptdaten stammen aus TheMealDB und werden über das FridgeChef-Backend geladen.
 
