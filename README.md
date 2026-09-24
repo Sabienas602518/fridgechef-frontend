@@ -395,24 +395,38 @@ Die Online-Rezeptkarten werden auf kleineren Bildschirmen ebenfalls untereinande
 # Projektstruktur
 
 ```text
-src/app
-├── nav
-├── pages
-│   ├── home
-│   ├── vorrat
-│   ├── vorrat-detail
-│   ├── rezepte
-│   ├── rezept-create
-│   ├── rezept-detail
-│   └── empfehlungen
-├── shared
-│   ├── backend.ts
-│   ├── expiry.ts
-│   ├── ingredient.ts
-│   ├── matching.ts
-│   ├── online-recipe.ts
-│   └── recipe.ts
-└── app.routes.ts
+fridgechef-frontend
+├── screenshots
+│   ├── home.png
+│   ├── home2.png
+│   ├── vorrat.png
+│   ├── vorrat2.png
+│   ├── rezept.png
+│   ├── empfehlungen.png
+│   └── empfehlungen2.png
+├── src
+│   └── app
+│       ├── nav
+│       ├── pages
+│       │   ├── home
+│       │   ├── vorrat
+│       │   ├── vorrat-detail
+│       │   ├── rezepte
+│       │   ├── rezept-create
+│       │   ├── rezept-detail
+│       │   └── empfehlungen
+│       ├── shared
+│       │   ├── backend.ts
+│       │   ├── expiry.ts
+│       │   ├── ingredient.ts
+│       │   ├── matching.ts
+│       │   ├── online-recipe.ts
+│       │   └── recipe.ts
+│       └── app.routes.ts
+├── angular.json
+├── package.json
+├── package-lock.json
+└── README.md
 ```
 
 
@@ -524,6 +538,15 @@ Folgende User-Flows wurden während der Entwicklung geprüft:
 22. Verhalten bei nicht erreichbaren Online-Rezepten prüfen
 
 
+## Automatisierte Tests
+
+Die Angular-Tests können mit folgendem Befehl gestartet werden:
+
+```bash
+ng test
+```
+
+
 # Installation von Null
 
 Die Installation wurde zusätzlich in einem separaten Testordner geprüft.
@@ -543,18 +566,21 @@ Dabei wurden:
 Damit wurde geprüft, dass das Projekt auch außerhalb der ursprünglichen Entwicklungsumgebung gestartet werden kann.
 
 
+
+
 # KI-Werkzeuge
 
  ChatGPT von OpenAI
 
 Einsatzbereiche:
-t
+
 
 - Unterstützung bei der Fehlersuche
 - Fragen zu Angular, TypeScript und JavaScript
 - Erklärung von Compiler- und Runtime-Fehlern
 - Unterstützung bei der Einbindung von Online-Rezepten über TheMealDB
 - Testplanung
+- Vorbereitung der Dokumentation
 
 
 
