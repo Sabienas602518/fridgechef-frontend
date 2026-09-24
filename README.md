@@ -472,6 +472,29 @@ Dazu gehören unter anderem:
 
 Enthält gemeinsam verwendete Funktionen für die Auswertung von Ablaufdaten.
 
+# Screenshots
+
+## Startseite
+
+![Startseite 1](screenshots/home.png)
+
+![Startseite 2](screenshots/home2.png)
+
+## Vorrat
+
+![Vorrat 1](screenshots/vorrat.png)
+
+![Vorrat 2](screenshots/vorrat2.png)
+
+## Rezepte
+
+![Rezepte](screenshots/rezept.png)
+
+## Empfehlungen
+
+![Empfehlungen 1](screenshots/empfehlungen.png)
+
+![Empfehlungen 2](screenshots/empfehlungen2.png)
 
 # Tests
 
@@ -522,19 +545,18 @@ Damit wurde geprüft, dass das Projekt auch außerhalb der ursprünglichen Entwi
 
 # KI-Werkzeuge
 
-Bei der Entwicklung wurde ChatGPT unterstützend verwendet.
+ ChatGPT von OpenAI
 
 Einsatzbereiche:
+t
 
-- Erklärung von Angular und TypeScript
-- Erklärung von JavaScript
 - Unterstützung bei der Fehlersuche
+- Fragen zu Angular, TypeScript und JavaScript
 - Erklärung von Compiler- und Runtime-Fehlern
-- Vorschläge für REST- und Matching-Logik
-- Unterstützung bei Responsive Design
-- Refactoring
+- Unterstützung bei der Einbindung von Online-Rezepten über TheMealDB
 - Testplanung
-- Dokumentation
+
+
 
 Die Vorschläge wurden in das eigene Projekt integriert, angepasst und praktisch getestet.
 
@@ -556,6 +578,6 @@ https://github.com/Sabienas602518/fridgechef-backend
 
 # Autorin
 
-WebTech-Semesterprojekt
+Sabiena Jeyaragawan, 2026
 
 FridgeChef
