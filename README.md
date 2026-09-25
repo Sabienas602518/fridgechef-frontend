@@ -403,7 +403,8 @@ fridgechef-frontend
 │   ├── vorrat2.png
 │   ├── rezept.png
 │   ├── empfehlungen.png
-│   └── empfehlungen2.png
+│   ├── empfehlungen2.png
+│   └── empfehlungen3.png
 ├── src
 │   └── app
 │       ├── nav
@@ -549,8 +550,7 @@ ng test
 ```
 
 
-# Installation von Null
-
+# Test der Neuinstallation
 Die Installation wurde zusätzlich in einem separaten Testordner geprüft.
 
 Dabei wurden:
