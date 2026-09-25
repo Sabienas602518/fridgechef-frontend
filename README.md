@@ -510,6 +510,8 @@ Enthält gemeinsam verwendete Funktionen für die Auswertung von Ablaufdaten.
 
 ![Empfehlungen 2](screenshots/empfehlungen2.png)
 
+![Empfehlungen 3](screenshots/empfehlungen3.png)
+
 # Tests
 
 Folgende User-Flows wurden während der Entwicklung geprüft:
