@@ -2,6 +2,21 @@
   box-sizing: border-box;
 }
 
+:root {
+  --green: #2f7d4a;
+  --green-dark: #225c37;
+  --green-light: #e6f2ea;
+
+  --cream: #f8f4ee;
+  --beige: #f2ebe1;
+
+  --orange: #f4a261;
+  --orange-light: #ffe8cc;
+
+  --text: #1f1f1f;
+  --border: #d8d2c8;
+}
+
 html {
   font-family:
     Arial,
@@ -12,9 +27,14 @@ html {
 body {
   margin: 0;
 
-  background: #ffffff;
+  background:
+    linear-gradient(
+      180deg,
+      var(--green-light) 0px,
+      var(--cream) 260px
+    );
 
-  color: #1f1f1f;
+  color: var(--text);
 }
 
 button,
@@ -24,8 +44,27 @@ textarea {
   font: inherit;
 }
 
+input,
+select,
+textarea {
+  background: #fffdf9;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--green-light);
+  border-color: var(--green);
+}
+
 button {
   min-height: 40px;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
 }
 
 button:disabled {
@@ -37,6 +76,83 @@ a {
   text-underline-offset: 3px;
 }
 
+h1 {
+  color: var(--green-dark);
+}
+
+h2,
+h3 {
+  color: var(--green);
+}
+
+.card {
+  background: #fffaf2;
+  border: 1px solid #eadfce;
+  border-radius: 14px;
+}
+
+.btn-primary {
+  background-color: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--green-dark);
+  border-color: var(--green-dark);
+}
+
+.btn-secondary {
+  background-color: var(--orange);
+  border-color: var(--orange);
+  color: #222;
+}
+
+.btn-secondary:hover {
+  background-color: #e99049;
+  border-color: #e99049;
+}
+
+.badge {
+  background-color: var(--orange-light);
+  color: #5a3a00;
+}
+
 .error {
   font-weight: 600;
+  color: #b42318;
+}
+
+table {
+  background: #fffdf9;
+}
+
+thead {
+  background: var(--green-light);
+}
+
+tbody tr:nth-child(even) {
+  background: #fbf7f1;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ddd5ca;
+}
+
+@media (max-width: 768px) {
+  body {
+    background:
+      linear-gradient(
+        180deg,
+        var(--green-light) 0px,
+        var(--cream) 180px
+      );
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
 }
